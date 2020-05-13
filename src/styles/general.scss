@@ -1,0 +1,34 @@
+body {
+    background-color: black;
+    color: rgb(172, 36, 36);
+    font-family: Ubuntu;
+
+    overflow: hidden;
+
+    margin: 50px;
+}
+
+.ASCIIview {
+    width: 100%;
+    height: 70%;
+
+    .ASCIIchars {
+        display: inline-block;
+        font-family: monospace;
+        vertical-align: baseline;
+        text-rendering: optimizeLegibility;
+        white-space: pre;
+        word-wrap: break-word;
+        text-align: right;
+
+        letter-spacing: -0.2em;
+        line-height: 0.8em;
+    }
+
+    #Poland { 
+        width: 300px;
+    }
+    #Russia {
+        width: 600px;
+    }
+}
