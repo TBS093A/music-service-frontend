@@ -1,22 +1,96 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import '../styles/general.scss'
 
-const indexConsole = ({ }) => {
-    
-    return (
+const IndexConsole = () => {
 
-        <div>
-            <div>
-                Ładowanie funkcjonalności / загрузка контента с функциональностью сайта
+    useEffect( () => { loadingDivs() } )
+
+    const sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    const displayNone = {
+        display: 'none'
+    }
+
+    let iterationDivs = 0
+    const loadingDivs = async() => {
+        if (window.innerWidth < 900) {
+            document.body.style.fontSize = '8px'
+            document.getElementById('Poland').style.width = '180px'
+            document.getElementById('Russia').style.width = '310px'
+            document.getElementById('connect').style.width = '390px'
+            document.getElementById('connect').style.marginTop = '170px'
+            document.getElementById('connect').style.marginLeft = '-100px'
+        }
+        if (iterationDivs === 0)
+            while (iterationDivs < 7) {
+                document.getElementById(iterationDivs).style = 'display: block'
+                if (iterationDivs === 2) 
+                    await loadingLocation()
+                if (iterationDivs === 3)
+                    await loadingConnect()
+                if (iterationDivs === 6)
+                    await loadingBar()
+                iterationDivs++
+                await sleep(300)
+            }
+    }
+
+    const loadingLocation = async () => {
+        const response = await fetch('https://ipapi.co/json/')
+        let json = await response.json()
+        document.getElementById('2').innerHTML = json.ip
+            + ' ( '
+            + json.city
+            + ' ) >> Петропавловск-Камчатский'
+    }
+
+    let connectASCII = '$--a-sd--К-=;-/.=--=.-=а-=-=-;м-==-.=ч-=--' 
+    + ';=-а-=-;=т-=;=-;=-с-=;-к-=-=-=и-=-=,.,/.//,/;--=-й-=-=;-=,.'
+    + ',..v,||=-;;=--__+-=-=-='
+    let iterationASCII= 0
+    const loadingConnect = async() => {
+        let popChars = ''
+        while (iterationASCII < connectASCII.length) {
+            popChars = connectASCII.substring(0, iterationASCII)
+            document.getElementById('connect').innerHTML = popChars
+            await sleep(3)
+            iterationASCII++
+        }
+    }
+    
+    let procentage = 0
+    const loadingBar = async() => {
+        let loadingBar = document.getElementById('6').innerHTML
+        let lastProcentage = procentage
+        for (let i = 0; i < loadingBar.length; i++) {
+            loadingBar = document.getElementById('6').innerHTML
+            lastProcentage = procentage
+            if (loadingBar[i] === '_') {
+                procentage += 4
+                document.getElementById('6').innerHTML = loadingBar
+                    .replace('_','#')
+                    .replace(lastProcentage, procentage)
+                await sleep(30)
+            }
+        }
+    }    
+
+    return (
+        <div id='consoleDiv'>
+            <div id='0' style={displayNone}>
+                загрузка контента с функциональностью сайта
             </div>
-            <div>
-                Łączenie z serwerem / подключение к серверу
+            <div id='1' style={displayNone}>
+                подключение к серверу
             </div>
-            <div>
-                Arłamów ============================ Петропавловск-Камчатский
+            <div id='2' style={displayNone}>
+                 >> >> Петропавловск-Камчатский
             </div>
-            <div className='ASCIIview'>
+            <br />
+            <div className='ASCIIview' id='3' style={displayNone}>
                 <div className='ASCIIchars' id='Poland'>
             =-¬¬   TF▄                              <br />
            .⌐          ,   ..,                      <br />
@@ -41,6 +115,9 @@ const indexConsole = ({ }) => {
                       `     ∩ ─.-^ -,    ▐          <br />
                            `         `'¬.[¬         <br />
                                           `         <br />
+                </div>
+                <div className='ASCIIchars' id='connect'>
+
                 </div>
                 <div className='ASCIIchars' id='Russia'>
                                                                 ╓ⁿ`1                            <br />
@@ -93,8 +170,15 @@ const indexConsole = ({ }) => {
            ╙w,.═"``"^%,,,..^                                       ╢                            <br />
                 </div>
             </div>
-            <div>
-                Wczytywanie zasobów [###___________________________]
+            <br />
+            <div id='4' style={displayNone}>
+                Подключен!
+            </div>
+            <div id='5' style={displayNone}>
+                загрузка ресурсов
+            </div>
+            <div id='6' style={displayNone}>
+                [_________________________] 0%
             </div>
         </div>
 
@@ -102,4 +186,4 @@ const indexConsole = ({ }) => {
 
 }
 
-export default indexConsole
+export default IndexConsole

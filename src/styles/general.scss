@@ -4,31 +4,43 @@ body {
     font-family: Ubuntu;
 
     overflow: hidden;
-
-    margin: 50px;
+    margin: 0 auto;
 }
 
-.ASCIIview {
-    width: 100%;
-    height: 70%;
+#consoleDiv {
+    margin: 50px;
 
-    .ASCIIchars {
-        display: inline-block;
-        font-family: monospace;
-        vertical-align: baseline;
-        text-rendering: optimizeLegibility;
-        white-space: pre;
-        word-wrap: break-word;
-        text-align: right;
+    .ASCIIview {
+        width: 100%;
+        height: 70%;
 
-        letter-spacing: -0.2em;
-        line-height: 0.8em;
-    }
+        .ASCIIchars {
+            display: inline-block;
+            font-family: monospace;
+            vertical-align: baseline;
+            text-rendering: optimizeLegibility;
+            white-space: pre;
+            word-wrap: break-word;
+            text-align: right;
 
-    #Poland { 
-        width: 300px;
-    }
-    #Russia {
-        width: 600px;
+            letter-spacing: -0.2em;
+            line-height: 0.8em;
+        }
+
+        #Poland { 
+            width: 300px;
+        }
+        #Russia {
+            width: 600px;
+        }
+        #connect {
+            width: 630px;
+            overflow: hidden;
+            text-align: left;
+            position: absolute;
+            margin-top: 290px;
+            margin-left: -120px;
+            transform: rotate(-14deg);
+        }
     }
 }
