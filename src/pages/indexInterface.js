@@ -12,10 +12,10 @@ const IndexInterface = () => {
         return new Promise(resolve => setTimeout(resolve, ms))
     }
 
-    const controlAudio = () => {
+    const controlAudio = async() => {
         if (play === false) {
             setPlay(!play)
-            playAudio()
+            await playAudio()
         }
         else if (play === true && pause === false) {
             setPause(!pause)
@@ -37,7 +37,7 @@ const IndexInterface = () => {
         audio.play()
     }
 
-    const playAudio = () => {
+    const playAudio = async() => {
 
         let audio = document.getElementById("audio");
         audio.src = audioTest;
@@ -95,7 +95,7 @@ const IndexInterface = () => {
             ctx.fillStyle = "#000";
             ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-            timerAudio(audio)
+            timerAudio()
 
             for (let i = 0; i < bufferLength; i++) {
 
@@ -113,7 +113,7 @@ const IndexInterface = () => {
                 x += barWidth - 27;
             }
         }
-        const timerAudio = (audio) => {
+        const timerAudio = () => {
             let maxMinutes = parseInt(audio.duration / 60)
             let maxSeconds = parseInt(audio.duration - (60 * maxMinutes))
 
@@ -129,22 +129,53 @@ const IndexInterface = () => {
                 + ':'
                 + maxSeconds
         }
-        const progressBarAudio = (audio) => {
+        const progressBarAudio = async() => {
+            await sleep(1000)
             let maxProgress = audio.duration
             let onePercent = maxProgress / 100
-            let progress = 1;
-            for(let i = 0; i <= 100; i++) {
+            let progress = 1
+            let lastProgressValue = 0;
+            while (progress <= 20) {
+                await sleep(5000 * onePercent)
                 let bar = document.getElementById('audioProgressBar').innerHTML
-                document.getElementById('audioProgressBar').innerHTML = bar.replace('|', '#')
-                console.log(i)
-                sleep(parseInt((onePercent * 1000) * 5))
+                progress = parseInt((audio.currentTime / onePercent) / 5);
+                if (lastProgressValue !== progress) {
+                    document.getElementById('audioProgressBar').innerHTML = bar.replace('|', '#')
+                    lastProgressValue = progress
+                }
+                console.log(progress)
+                console.log(lastProgressValue)
             }
-            
         }
 
         audio.play();
         renderFrame();
-        progressBarAudio(audio)
+        await progressBarAudio()
+    }
+
+    const barClick = (e) => {
+        e.preventDefault()
+        let rect = e.target.getBoundingClientRect()
+        let y = e.clientY - rect.top
+        let value = parseInt((y / 364) * 100)
+        let audio = document.getElementById("audio");
+        let maxProgress = audio.duration
+        let onePercent = maxProgress / 100
+        audio.currentTime = value * onePercent
+        let progress = parseInt(value / 5)
+        let i = 0
+        while (i < 20) {
+            let bar = document.getElementById('audioProgressBar').innerHTML
+            document.getElementById('audioProgressBar').innerHTML = bar.replace('#', '|')
+            i++
+        }
+        i = 0
+        while (i <= progress){
+            let bar = document.getElementById('audioProgressBar').innerHTML
+            document.getElementById('audioProgressBar').innerHTML = bar.replace('|', '#')
+            i++
+        }
+        
     }
 
     return (
@@ -157,27 +188,27 @@ const IndexInterface = () => {
                     0:0
                 </div>
                 <div>===</div>
-                <div id='audioProgressBar'>
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
-                    | <br />
+                <div id='audioProgressBar' onClick={ e => barClick(e)} onDrag={ e => barClick(e)}>
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
+                    |<br />
                 </div>
                 <div>===</div>
                 <div id='audioTime'>
@@ -186,7 +217,7 @@ const IndexInterface = () => {
             </div>
             <canvas id='canvas'>
             </canvas>
-            <audio id='audio' controls>
+            <audio id='audio'>
             </audio>
         </div>
     )
