@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
 import '../styles/audioVisualizer.scss'
+import { alphabet } from '../assets/alphabet'
 import audioTest from '../images/audioTest.mp3'
+
 
 const IndexInterface = () => {
 
@@ -154,11 +156,12 @@ const IndexInterface = () => {
                     lastProgressValue = progress
                 }
             }
-        }
+        }    
 
-        audio.play();
-        renderFrame();
-        console.log('height ' + window.innerHeight + ', width ' + window.innerWidth)
+        audio.play()
+        renderFrame()
+        await viewTitleAudio()
+        moveTitleAudio()
         await progressBarAudio()
     }
 
@@ -185,6 +188,36 @@ const IndexInterface = () => {
             i++
         }
 
+    }
+
+    const viewTitleAudio = async() => {
+        let title = 'test audio x test audio'
+        title = title.toUpperCase()
+        let titleASCII = [];
+        let i
+        for (i = 0; i < title.length; i++) {
+            titleASCII[i] = alphabet[title[i]]
+            titleASCII[i] += '\n'
+            titleASCII[i].replace(',', '')
+        }
+        let titleASCIIFull = titleASCII.toString()
+        while (i > 0) {
+            titleASCIIFull = titleASCIIFull.replace(',','')
+            i--
+        }
+        document.getElementById('audioTitle').innerText = titleASCIIFull
+    }
+
+    const moveTitleAudio = async() => {
+        let title = document.getElementById('audioTitle')
+        let different = window.innerHeight - title.clientHeight
+        await sleep(2000)
+        while (true) {
+            title.style = 'margin-top: ' + different + 'px;'
+            await sleep(12000)
+            title.style = 'margin-top: 10px;'
+            await sleep(12000)
+        }
     }
 
     return (
@@ -226,6 +259,8 @@ const IndexInterface = () => {
             </div>
             <canvas id='canvas'>
             </canvas>
+            <pre id='audioTitle'>
+            </pre>
             <audio id='audio'>
             </audio>
         </div>

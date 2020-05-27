@@ -1,6 +1,7 @@
 #audioVisualizerDiv {
     height: 100%;
     width: 100%;
+    overflow: hidden;
 
     #audioMenu {
         height: 500px;
@@ -22,6 +23,25 @@
         width: 100%;
         position: absolute;
         z-index: 0;
+    }
+
+    #audioTitle {
+        width: 50px;
+        position: fixed;
+        left: 310px;
+
+        display: inline-block;
+        font-family: monospace;
+        vertical-align: baseline;
+        text-rendering: optimizeLegibility;
+        white-space: pre;
+        word-wrap: break-word;
+        text-align: center;
+
+        letter-spacing: -0.2em;
+        line-height: 0.8em;
+
+        transition-duration: 10s;
     }
 
     #audio {
