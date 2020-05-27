@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import '../styles/audioVisualizer.scss'
-import { alphabet } from '../assets/alphabet'
+import { alphabeth } from '../assets/alphabeth'
 import audioTest from '../images/audioTest.mp3'
 
 
@@ -196,7 +196,7 @@ const IndexInterface = () => {
         let titleASCII = [];
         let i
         for (i = 0; i < title.length; i++) {
-            titleASCII[i] = alphabet[title[i]]
+            titleASCII[i] = alphabeth[title[i]]
             titleASCII[i] += '\n'
             titleASCII[i].replace(',', '')
         }
