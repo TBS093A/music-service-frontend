@@ -191,7 +191,7 @@ const IndexInterface = () => {
     }
 
     const viewTitleAudio = async() => {
-        let title = 'test audio x test audio'
+        let title = 'rzukk x bragga bad'
         title = title.toUpperCase()
         let titleASCII = [];
         let i
@@ -211,12 +211,12 @@ const IndexInterface = () => {
     const moveTitleAudio = async() => {
         let title = document.getElementById('audioTitle')
         let different = window.innerHeight - title.clientHeight
-        await sleep(2000)
+        await sleep(5000)
         while (true) {
             title.style = 'margin-top: ' + different + 'px;'
-            await sleep(12000)
+            await sleep(15000)
             title.style = 'margin-top: 10px;'
-            await sleep(12000)
+            await sleep(15000)
         }
     }
 
