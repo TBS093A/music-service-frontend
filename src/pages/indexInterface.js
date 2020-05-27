@@ -66,7 +66,6 @@ const IndexInterface = () => {
         analyser.fftSize = 256;
 
         let bufferLength = analyser.frequencyBinCount;
-        console.log(bufferLength);
 
         let dataArray = new Uint8Array(bufferLength);
 
@@ -77,7 +76,7 @@ const IndexInterface = () => {
         let barHeight;
         let x = 0;
 
-        let frameString = '==================================================='
+        let frameString = '===================================================='
 
         let frameStrings = [] // 52 chars in row
 
@@ -118,7 +117,8 @@ const IndexInterface = () => {
                 frame = frameString.slice(0, barHeight / 10) + '='
                 ctx.fillText(frame, 0, x);
 
-                x += barWidth - 27;
+                
+                x += window.innerHeight / (bufferLength - 34);
             }
         }
         const timerAudio = () => {
@@ -153,13 +153,12 @@ const IndexInterface = () => {
                     document.getElementById('audioProgressBar').innerHTML = bar.replace('|', '#')
                     lastProgressValue = progress
                 }
-                console.log(progress)
-                console.log(lastProgressValue)
             }
         }
 
         audio.play();
         renderFrame();
+        console.log('height ' + window.innerHeight + ', width ' + window.innerWidth)
         await progressBarAudio()
     }
 
