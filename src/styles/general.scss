@@ -7,6 +7,20 @@ body {
     margin: 0 auto;
 }
 
+// index interface
+
+    // index panel
+
+    #panelDiv {
+        position: absolute;
+        height: 100%;
+        width: 80%;
+        left: 400px;
+        z-index: 1;
+    }
+
+// index console
+
 #consoleDiv {
     margin: 50px;
 

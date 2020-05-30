@@ -1,0 +1,72 @@
+#songPanel {
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .songPanelColumn {
+        width: 50%;
+        height: 100%;
+        //border-left: 1px solid rgba(172,36,36,1);
+
+        #songDetails {
+            width: 90%;
+            height: 85px;
+            padding: 5%;
+            
+            #songCode {
+                text-align: left;
+                overflow: hidden;
+            }
+
+            #songThings {
+
+                #songAddress {
+                    text-align: right;
+                    padding-top: 10px;
+                    width: 50%;
+                    float: left;
+                }
+
+                #songTitle {
+                    text-align: left;
+                    padding-top: 10px;
+                    width: 50%;
+                    float: left;
+                }
+            }
+        }
+
+        #songText {
+            width: 90%;
+            height: auto;
+            padding: 5%;
+            padding-top: 0;
+
+            .textSection {
+                width: 100%;
+                height: auto;
+                padding-top: 2.5%;
+
+                .generalText {
+                    width: 100%;
+                }
+
+                .rowDetails {
+                    width: 0%;
+                }
+            }
+        }
+
+        #songComments {
+            width: 90%;
+            height: auto;
+            padding: 5%;
+        }
+
+        #albumSongs {
+            width: 90%;
+            height: auto;
+            padding: 5%;
+        }
+    }
+}

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import '../styles/audioVisualizer.scss'
-import { alphabeth } from '../assets/alphabeth'
-import audioTest from '../images/audioTest.mp3'
+import '../../../styles/audioVisualizer.scss'
+import { alphabeth } from '../../../components/alphabeth'
+import audioTest from '../../../images/audioTest.mp3'
 
 
-const IndexInterface = () => {
+const AudioPlayer = () => {
 
     const [play, setPlay] = useState(false)
     const [pause, setPause] = useState(false)
@@ -74,7 +74,7 @@ const IndexInterface = () => {
         let WIDTH = canvas.width;
         let HEIGHT = canvas.height;
 
-        let barWidth = (WIDTH / bufferLength) * 2.5;
+        //let barWidth = (WIDTH / bufferLength) * 2.5;
         let barHeight;
         let x = 0;
 
@@ -118,7 +118,6 @@ const IndexInterface = () => {
                 ctx.font = '15px Ubuntu'
                 frame = frameString.slice(0, barHeight / 10) + '='
                 ctx.fillText(frame, 0, x);
-
                 
                 x += window.innerHeight / (bufferLength - 34);
             }
@@ -267,4 +266,4 @@ const IndexInterface = () => {
     )
 
 }
-export default IndexInterface
+export default AudioPlayer
