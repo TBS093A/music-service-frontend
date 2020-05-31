@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import '../../../styles/audioVisualizer.scss'
 import { alphabeth } from '../../../components/alphabeth'
-import audioTest from '../../../images/audioTest.mp3'
+import audioTest from '../../../images/audioTest3.mp3'
 
 
 const AudioPlayer = () => {
@@ -190,7 +190,7 @@ const AudioPlayer = () => {
     }
 
     const viewTitleAudio = async() => {
-        let title = 'rzukk x bragga bad'
+        let title = 'rzukk #hot16chellenge2'
         title = title.toUpperCase()
         let titleASCII = [];
         let i
