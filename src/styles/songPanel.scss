@@ -39,10 +39,12 @@
 
         #songText {
             width: 95%;
-            overflow: hidden;
             overflow-y: scroll;
             padding-right: 5%;
             margin-bottom: 50px;
+
+            -ms-overflow-style: none;
+            scrollbar-width: none;
 
             .textSection {
                 width: 100%;
@@ -81,10 +83,75 @@
             }
         }
 
+        #songText::-webkit-scrollbar {
+            display: none;
+        }
+
         #songComments {
             width: 90%;
-            height: auto;
-            padding: 5%;
+            height: 50%;
+            padding-right: 5%;
+            margin-top: 50px;
+
+            #comments {
+                height: 0px; //420px
+                overflow-y: scroll;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                transition-duration: 0.5s;
+
+                .commentDiv {
+                    width: 100%;
+                    height: auto;
+                    padding-bottom: 20px;
+
+                    .commentInfo {
+                        padding-bottom: 10px;
+                    }
+
+                    .commentText {
+                        margin-left: 20px;
+                    }
+                }
+            }
+
+            #comments::-webkit-scrollbar {
+                display: none;
+            }
+
+            #commentAdd {
+                width: 100%;
+                height: 50px;
+                display: flex;
+
+                input {
+                    width: 100%;
+                    padding-right: 5%;
+                    padding-left: 5%;
+                    height: 50px;
+                    color: rgba(172,36,36,1);
+                    font-family: Ubuntu;
+                    background-color: black;
+                    border: solid 1px rgba(172,36,36,1);
+                }
+
+                input::placeholder {
+                    font-family: Ubuntu;
+                    color: rgba(172,36,36,1);
+                }
+
+                #commentAddButton {
+                    width: 25%;
+                    height: 32.5px;
+                    padding-top: 18.5px;
+                    margin-left: 5%;
+                    display: none;
+
+                    font-size: 12px;
+                    text-align: center;
+                    border: solid 1px rgba(172,36,36,1);
+                }
+            }
         }
 
         #albumSongs {

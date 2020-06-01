@@ -7,7 +7,8 @@ const SongPanel = () => {
     useEffect( () => generateTitleCode() )
     useEffect( () => setTextHeight() )
 
-    const [openDescription, setOpen] = useState(-1)
+    const [openDescription, setOpenDescription] = useState(-1)
+    const [openComments, setOpenComments] = useState(false)
 
     // ANSI: ▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏░▒▓▐▔▕▖▗▘▙▚▛▜▝▞▟
 
@@ -34,6 +35,26 @@ const SongPanel = () => {
         let titleDivHeight = document.getElementById('songDetails').clientHeight
         let textDivHeight = window.innerHeight - titleDivHeight
         document.getElementById('songText').style = 'height: ' + (textDivHeight - 50) + 'px;'
+    }
+
+    const activeCommentDiv = () => {
+        let commentsDiv = document.getElementById('comments')
+        let commentAddInput = document.getElementById('commentAddInput')
+        let commentAddButton = document.getElementById('commentAddButton')
+        if ( openComments ) {
+            commentAddInput.placeholder = 'type comment (or click to exit)'
+            commentsDiv.style = 'height: ' + ((window.innerHeight / 2) - 50) + 'px;'
+            commentAddInput.style = 'width: 60%;'
+            commentAddButton.style = 'display: block;'
+            setOpenComments( !openComments )
+        }
+        else {
+            commentAddInput.placeholder = '(click to show comments)'
+            commentsDiv.style = 'height: 0px;'
+            commentAddInput.style = 'width: 100%;'
+            commentAddButton.style = 'display: none;'
+            setOpenComments( !openComments )
+        }
     }
 
     let exampleText = [
@@ -116,6 +137,54 @@ const SongPanel = () => {
         }
     }
 
+    let exampleComments = [
+        {
+            ip: '192.168.0.1',
+            city: 'Rzeszów',
+            text: 'Ciekawe'
+        },
+        {
+            ip: '192.168.1.10',
+            city: 'Arłamów',
+            text: 'ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+        {
+            ip: '192.168.2.20',
+            city: 'Kraków',
+            text: 'TAKIE życie!!!!'
+        },
+    ]
+
     return (
         <div id='songPanel'>
             <div className='songPanelColumn'>
@@ -146,7 +215,7 @@ const SongPanel = () => {
                                                     <pre 
                                                         id={'row' + key} 
                                                         className='generalText'
-                                                        onClick={ openDescription === key ? () => setOpen( -1 ) : () => setOpen( key )}
+                                                        onClick={ openDescription === key ? () => setOpenDescription( -1 ) : () => setOpenDescription( key )}
                                                         dangerouslySetInnerHTML={ textHighlight(row, exampleRowDetails[key].text) }>
                                                     </pre>
                                                     <pre 
@@ -165,7 +234,7 @@ const SongPanel = () => {
                                                     <pre 
                                                         id={'row' + key} 
                                                         className='generalText'
-                                                        onClick={ openDescription === link ? () => setOpen( -1 ) : () => setOpen( link )}
+                                                        onClick={ openDescription === link ? () => setOpenDescription( -1 ) : () => setOpenDescription( link )}
                                                         dangerouslySetInnerHTML={ text === '' ? textHighlight(row, row) : textHighlight(row, text) }>
                                                     </pre>
                                                 </div>
@@ -178,7 +247,7 @@ const SongPanel = () => {
                                                     <pre 
                                                         id={'row' + key} 
                                                         className='generalText'
-                                                        onClick={ openDescription === key ? () => setOpen( -1 ) : () => setOpen( key )}
+                                                        onClick={ openDescription === key ? () => setOpenDescription( -1 ) : () => setOpenDescription( key )}
                                                         dangerouslySetInnerHTML={ text === '' ? textHighlight(row, row) : textHighlight(row, text) }>
                                                     </pre>
                                                     <pre 
@@ -190,12 +259,13 @@ const SongPanel = () => {
                                             )
                                         }
                                     }
-                                    else
+                                    else {
                                         return (
                                             <pre id={key} className='generalText'>
                                                 {row}
                                             </pre>
                                         )
+                                    }
                                 }
                             ) 
                         }
@@ -204,6 +274,32 @@ const SongPanel = () => {
             </div>
             <div className='songPanelColumn'>
                 <div id='songComments'>
+                    <div id='comments'>
+                        { exampleComments.map( (comment, key) => {
+                                    return (
+                                        <div id={'comment' + key} className='commentDiv'>
+                                            <div className='commentInfo'>
+                                                { comment.ip + ' ( ' + comment.city + ' )' }
+                                            </div>
+                                            <div className='commentText'>
+                                                { comment.text }
+                                            </div>
+                                        </div>
+                                    )
+                                } 
+                            ) 
+                        }
+                    </div>
+                    <div id='commentAdd'>
+                        <input
+                            id='commentAddInput'
+                            placeholder='(click to show comments)'
+                            onClick={ () => activeCommentDiv() }> 
+                        </input>
+                        <div id='commentAddButton'>
+                            Add comment
+                        </div>
+                    </div>
                 </div>
                 <div id='albumSongs'>
                 </div>
