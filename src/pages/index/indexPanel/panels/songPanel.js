@@ -22,7 +22,7 @@ const SongPanel = () => {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < charInRowCount; j++) {
                 if (j === 0)
-                    code += ' ▎▍▏▍▏'
+                    code += '▐▐▐▐' //'▎▍▍▍▏'
                 else
                     code += randomChars[parseInt(Math.random() * randomChars.length)]
             }

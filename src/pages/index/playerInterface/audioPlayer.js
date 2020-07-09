@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import '../../../styles/audioVisualizer.scss'
 import { alphabeth } from '../../../components/alphabeth'
-import audioTest from '../../../images/audioTest3.mp3'
+import audioTest from '../../../images/audioTest0.wav'
 
 
 const AudioPlayer = () => {
