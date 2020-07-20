@@ -12,7 +12,7 @@ const SongPanel = () => {
 
     // ANSI: ▀▁▂▃▄▅▆▇█▉▊▋▌▍▎▏░▒▓▐▔▕▖▗▘▙▚▛▜▝▞▟
 
-    let title = 'rzukk x bragga bad'
+    let title = '00x097 x track test'
     let address = '/op?song=aQ2ed#!WkL#csd435fk'
     let code = ''
 
@@ -58,62 +58,62 @@ const SongPanel = () => {
     }
 
     let exampleText = [
-        '[Zwrotka Rzukk]\n',
-        'Znam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '[Zwrotka 00x097]\n',
+        'Lorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\nZnam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '\nLorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\nZnam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '\nLorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\nZnam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '\nLorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\n[Zwrotka Rzukk]\n',
-        'Znam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '\n[Zwrotka 00x097]\n',
+        'Lorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\nZnam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '\nLorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\nZnam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n',
+        '\nLorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
 
-        '\nZnam wielu co robią zajebistą muzykę, kolego,\n',
-        'Nie znam ani jednego, z kogo zrobiłaby zajebistego,\n',
-        'Ludzie płyną z nurtem, bo fajne, bo modne,\n',
-        'Leczą swe komplexy, rozmieniają się na drobne,\n'
+        '\nLorem ipsum dolor sit amet, consectetur adipi,\n',
+        'Pharetra malesuada. Nunc vel nulla mattis, mollis dui a,\n',
+        'Nulla nec lorem elementum, blandit libero auctor,\n',
+        'Cras vestibulum pretium nunc, ac,\n',
     ]
 
     let exampleRowDetails = {
         1: {
             group: false,
             leader: true,
-            text: 'Znam wielu co robią',
-            description: 'chodzi o to, że ktoś coś robi, itpchodzi o to, że ktoś coś robi, itpchodzi o to, że ktoś coś robi, itp',
+            text: 'Lorem ipsum dolor',
+            description: 'row description test / row description test / row description test',
             image: ''
         },
         4: {
             group: false,
             leader: true,
-            text: 'rozmieniają się na drobne',
-            description: 'leczą no wszystko jasne leczą no wszystko jasne leczą no wszystko jasne leczą no wszystko jasne leczą no wszystko jasne',
+            text: 'vestibulum pretium nunc, ac,',
+            description: 'row description test / row description test / row description test',
             image: ''
         },
         14: {
@@ -141,47 +141,47 @@ const SongPanel = () => {
         {
             ip: '192.168.0.1',
             city: 'Rzeszów',
-            text: 'Ciekawe'
+            text: 'test comment'
         },
         {
             ip: '192.168.1.10',
             city: 'Arłamów',
-            text: 'ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum ELO lorem ipsum'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
         {
             ip: '192.168.2.20',
             city: 'Kraków',
-            text: 'TAKIE życie!!!!'
+            text: 'test comment'
         },
     ]
 

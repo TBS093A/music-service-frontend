@@ -190,7 +190,7 @@ const AudioPlayer = () => {
     }
 
     const viewTitleAudio = async() => {
-        let title = 'rzukk #hot16chellenge2'
+        let title = '00x097 x test track'
         title = title.toUpperCase()
         let titleASCII = [];
         let i
