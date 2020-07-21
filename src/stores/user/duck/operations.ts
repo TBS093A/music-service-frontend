@@ -8,14 +8,13 @@ import AppService from '../../AppService'
 export default class UserService{
 
     constructor(
-        private service: AppService
+        private service: AppService,
+        private serviceUser: User,
+        private response: any
     ){}
 
     private endpoint: string = 'user/'
-    private dispatch = useDispatch()
-    private response: any
-
-    private serviceUser: User
+    private dispatch: any = useDispatch()
 
     // Authorization
 
@@ -25,7 +24,7 @@ export default class UserService{
             password: password
         }
         this.response = await this.service.post(
-            this.endpoint + '/auth', 
+            this.endpoint + 'auth', 
             body, 
             this.service.defaultToken
         )
@@ -61,16 +60,27 @@ export default class UserService{
 
     public async updateUser(user: any, id: number, token: string) {
         this.response = await this.service.patch(
-            this.endpoint + '/' + id,
+            this.endpoint + id,
             user,
             token
         )
+        this.serviceUser = {
+            id: this.response.payload.user.id,
+            username: this.response.payload.user.username,
+            email: this.response.payload.user.email,
+            ip: this.response.payload.user.ip,
+            city: this.response.payload.user.city,
+            country: this.response.payload.user.country,
+            token: token
+        }
+        this.dispatch(actions.login(this.serviceUser))
     }
 
     public async deleteUser(id: number, token: string) {
         this.response = await this.service.delete(
-            this.endpoint + '/' + id,
+            this.endpoint + id,
             token
         )
+        this.deleteAuth(token)
     }
 }
