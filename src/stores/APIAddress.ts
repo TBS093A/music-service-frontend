@@ -1,4 +1,4 @@
-const address = 'localhost:9090'
+const address = 'localhost:9090/'
 
 export {
     address
