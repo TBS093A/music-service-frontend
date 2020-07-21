@@ -22,7 +22,7 @@ body {
 // index console
 
 #consoleDiv {
-    margin: 50px;
+    padding: 50px;
 
     .ASCIIview {
         width: 100%;
@@ -56,5 +56,23 @@ body {
             margin-left: -120px;
             transform: rotate(-14deg);
         }
+    }
+
+    input {
+        background-color: rgba(0,0,0,0);
+        color: rgb(172, 36, 36);
+        font-family: Ubuntu;
+        font-size: 16px;
+        border: 0px;
+        margin-left: 5px;
+    }
+    input:focus{
+        outline: none;
+    }
+
+    pre {
+        margin: 0px;
+        font-family: Ubuntu;
+        font-size: 16px;
     }
 }

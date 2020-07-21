@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
-import '../styles/general.scss'
+import '../../../styles/general.scss'
 
-const IndexConsole = () => {
+const ConsoleLoad = () => {
 
     useEffect( () => { loadingDivs() } )
 
@@ -186,4 +186,4 @@ const IndexConsole = () => {
 
 }
 
-export default IndexConsole
+export default ConsoleLoad

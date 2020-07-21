@@ -1,11 +1,11 @@
-import actions from './actions'
 import { useDispatch } from 'react-redux'
-
-import User from './class'
 import AppService from '../../AppService'
 
+import actions from './actions'
+import User from './class'
 
-export default class UserService{
+
+export default class UserService {
 
     constructor(
         private service: AppService,
