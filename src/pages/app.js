@@ -1,15 +1,15 @@
-import React from 'react'
-import 
-import { observer } from 'react-mobx'
-import { render } from 'node-sass'
+// import React from 'react'
+// import 
+// import { observer } from 'react-mobx'
+// import { render } from 'node-sass'
 
-import Guest from './../stores/guest'
+// import Guest from './../stores/guest'
 
-@observer
-class App {
+// @observer
+// class App {
 
-    render() {
-        <div></div>
-    }
-}
+//     render() {
+//         <div></div>
+//     }
+// }
 
