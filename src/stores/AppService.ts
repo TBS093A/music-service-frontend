@@ -19,27 +19,27 @@ export class AbstractService<T> {
         return response.json()
     }
 
-    public async getList(endpoint: string) : Promise< Array<T> > {
+    public async getList(endpoint: string) : Promise<JSON> {
         return await this.responseGD(address + endpoint, 'GET')
     }
 
-    public async getOne(endpoint: string) : Promise<T> {
+    public async getOne(endpoint: string) : Promise<JSON> {
         return await this.responseGD(address + endpoint, 'GET')
     }
 
-    public async post(endpoint: string, body: T) : Promise<T> {
+    public async post(endpoint: string, body: T) : Promise<JSON> {
         return await this.responseCRU(address + endpoint, 'POST', body)
     }
 
-    public async put(endpoint: string, body: T) : Promise<T> {
+    public async put(endpoint: string, body: T) : Promise<JSON> {
         return await this.responseCRU(address + endpoint, 'PUT', body)
     }
 
-    public async patch(endpoint: string, body: T) : Promise<T> {
+    public async patch(endpoint: string, body: T) : Promise<JSON> {
         return await this.responseCRU(address + endpoint, 'PATCH', body)
     }
 
-    public async delete(endpoint: string) : Promise<T> {
+    public async delete(endpoint: string) : Promise<JSON> {
         return await this.responseGD(address + endpoint, 'DELETE')
     }
 }
