@@ -1,5 +1,7 @@
 import React from 'react'
 
+import ConsoleLoad from '../consoleLoad'
+
 const help = () => {
     return    "register                                            - register user by form \n"
             + "login                                               - login user by form \n"
@@ -17,26 +19,10 @@ const register = () => {
     )
 }
 
-const login = () => {
-    return (
-        <div>
-        
-        </div>
-    )
-}
-
-const logout = () => {
-    return (
-        <div>
-        
-        </div>
-    )
-}
-
 const startApp = () => {
     return (
         <div>
-        
+            <ConsoleLoad />
         </div>
     )
 }
@@ -49,8 +35,6 @@ const undefined = (command) => {
 export default {
     help,
     register,
-    login,
-    logout,
     startApp,
     undefined
 }

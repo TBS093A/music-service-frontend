@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import commands from './commands'
+import commands from './commands/commands'
+import Login from './commands/fetchCommands/Login.tsx' 
+// import Logout from './commands/fetchCommands/Logout'
 
 import '../../../styles/general.scss'
 
-const IndexConsole = () => {
+
+const IndexConsole = ( user ) => {
 
     useEffect( () => resizeConsoleDiv(), [])
 
@@ -20,6 +23,9 @@ const IndexConsole = () => {
 
     const [consoleHistory, setConsoleHistory] = useState('')
 
+    const [loginCommand, setVisibleLoginForm] = useState(false)
+    const [logoutCommand, setVisibleLogoutForm] = useState(false)
+
     const consoleInput = React.createRef()
 
     let consoleUser = 'guest@00x097 * >  '
@@ -30,6 +36,9 @@ const IndexConsole = () => {
         consoleUser += inputValue + '\n'
         if ( inputValue === 'help' )
             setConsoleHistory( consoleHistory + consoleUser + commands.help() )
+        if ( inputValue === 'login' ) {
+            setVisibleLoginForm( !loginCommand )
+        }
         else if ( inputValue === 'clean' )
             setConsoleHistory( '' )
         else
@@ -50,7 +59,7 @@ const IndexConsole = () => {
                     { consoleHistory }
             </pre>
             <form onSubmit={ detectCommand }>
-                guest@00x097 * >
+                { consoleUser }
                 <input 
                     id='consoleInput'
                     ref={consoleInput}
@@ -58,6 +67,14 @@ const IndexConsole = () => {
                     autoFocus
                 />
             </form>
+            <div id='inputForms'>
+                <div style={ loginCommand === true ? {display: 'block'} : {display: 'none'} } >
+                    <Login />
+                </div>
+                <div style={ logoutCommand === true ? {display: 'block'} : {display: 'none'} } >
+                    
+                </div>
+            </div>
         </div>
     )
 }

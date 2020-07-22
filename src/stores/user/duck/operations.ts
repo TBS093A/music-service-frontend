@@ -7,18 +7,16 @@ import User from './class'
 
 export default class UserService {
 
-    constructor(
-        private service: AppService,
-        private serviceUser: User,
-        private response: any
-    ){}
+    private static service: AppService
+    private static serviceUser: User
+    private static response: any
 
-    private endpoint: string = 'user/'
-    private dispatch: any = useDispatch()
+    private static endpoint: string = 'user/'
+    private static dispatch: any = useDispatch()
 
     // Authorization
 
-    public async postAuth(username: string, password: string) {
+    public static async postAuth(username: string, password: string) {
         const body = { 
             username: username, 
             password: password
@@ -40,7 +38,7 @@ export default class UserService {
         this.dispatch(actions.login(this.serviceUser))
     }
 
-    public async deleteAuth(token: string) {
+    public static async deleteAuth(token: string) {
         this.response = await this.service.delete(
             this.endpoint + 'auth',
             token
@@ -50,7 +48,7 @@ export default class UserService {
 
     // User CRUD
 
-    public async registerUser(user: any) {
+    public static async registerUser(user: any) {
         this.response = await this.service.post(
             this.endpoint,
             user,
@@ -58,7 +56,7 @@ export default class UserService {
         )
     }
 
-    public async updateUser(user: any, id: number, token: string) {
+    public static async updateUser(user: any, id: number, token: string) {
         this.response = await this.service.patch(
             this.endpoint + id,
             user,
@@ -76,7 +74,7 @@ export default class UserService {
         this.dispatch(actions.login(this.serviceUser))
     }
 
-    public async deleteUser(id: number, token: string) {
+    public static async deleteUser(id: number, token: string) {
         this.response = await this.service.delete(
             this.endpoint + id,
             token

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import '../../../styles/audioVisualizer.scss'
-import { alphabeth } from '../../../components/alphabeth'
+import { alphabeth } from '../../alphabeth'
 import audioTest from '../../../images/audioTest0.wav'
 
 
