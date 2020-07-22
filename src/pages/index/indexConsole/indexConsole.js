@@ -22,26 +22,35 @@ const IndexConsole = () => {
 
     const consoleInput = React.createRef()
 
+    let consoleUser = 'guest@00x097 * >  '
+
     const detectCommand = (event) => {
         event.preventDefault()
-        setConsoleHistory( '# ' + consoleInput.current.value + '\n')
-        if (consoleInput.current.value === 'help')
-            setConsoleHistory( commands.help() )
-            console.log(consoleHistory)
+        let inputValue = consoleInput.current.value
+        consoleUser += inputValue + '\n'
+        if ( inputValue === 'help' )
+            setConsoleHistory( consoleHistory + consoleUser + commands.help() )
+        else if ( inputValue === 'clean' )
+            setConsoleHistory( '' )
+        else
+            setConsoleHistory( consoleHistory + consoleUser + commands.undefined(inputValue) )
+        consoleInput.current.value = ''
         activateInput()
     }
 
     return (
         <div id='consoleDiv' onClick={ activateInput }>
-            <div>
-                tbs093a@00x097 system, welcome <br />
-                type 'help' to get commands
+            <div id='consoleInfo'>
+                00x097 system (Version 0.1.9) <br />
+                type 'help' for more commands <br />
+                type 'start -a' for start app 
+                <br /><br />
             </div>
             <pre id='consoleHistory'>
                     { consoleHistory }
             </pre>
             <form onSubmit={ detectCommand }>
-                # 
+                guest@00x097 * >
                 <input 
                     id='consoleInput'
                     ref={consoleInput}
