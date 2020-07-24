@@ -1,11 +1,11 @@
 import types from './types'
 
 const login = item => ({
-    type: types.LOGOUT_USER, item
+    type: types.LOGIN_USER, item
 })
 
-const logout = () => ({
-    type: types.LOGOUT_USER
+const logout = item => ({
+    type: types.LOGOUT_USER, item
 })
 
 export default {

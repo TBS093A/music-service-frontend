@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import commands from './commands/commands'
-import Login from './commands/fetchCommands/Login.tsx' 
+import Login from './commands/fetchCommands/Login' 
 // import Logout from './commands/fetchCommands/Logout'
 
 import '../../../styles/general.scss'
@@ -36,7 +36,8 @@ const IndexConsole = ( user ) => {
         consoleUser += inputValue + '\n'
         if ( inputValue === 'help' )
             setConsoleHistory( consoleHistory + consoleUser + commands.help() )
-        if ( inputValue === 'login' ) {
+        else if ( inputValue === 'login' ) {
+            setConsoleHistory( consoleHistory + consoleUser )
             setVisibleLoginForm( !loginCommand )
         }
         else if ( inputValue === 'clean' )
@@ -58,7 +59,15 @@ const IndexConsole = ( user ) => {
             <pre id='consoleHistory'>
                     { consoleHistory }
             </pre>
-            <form onSubmit={ detectCommand }>
+            <div id='inputForms'>
+                <div style={ loginCommand === true ? {display: 'block'} : {display: 'none'} } >
+                    <Login visible={ loginCommand } consoleHistory={ consoleHistory } />
+                </div>
+                <div style={ logoutCommand === true ? {display: 'block'} : {display: 'none'} } >
+                    
+                </div>
+            </div>
+            <form onSubmit={ detectCommand } style={ loginCommand || logoutCommand ? {display: 'none'} : {display: 'block'} }>
                 { consoleUser }
                 <input 
                     id='consoleInput'
@@ -67,14 +76,6 @@ const IndexConsole = ( user ) => {
                     autoFocus
                 />
             </form>
-            <div id='inputForms'>
-                <div style={ loginCommand === true ? {display: 'block'} : {display: 'none'} } >
-                    <Login />
-                </div>
-                <div style={ logoutCommand === true ? {display: 'block'} : {display: 'none'} } >
-                    
-                </div>
-            </div>
         </div>
     )
 }

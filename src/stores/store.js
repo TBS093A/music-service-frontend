@@ -1,11 +1,13 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { saveState, loadState } from './loadStore'
 import rootReducer from './reducers'
 import loadash from 'lodash'
+import thunk from 'redux-thunk'
 
 const persistedState = loadState()
 
-export const store = createStore(rootReducer, persistedState)
+export const store = createStore(rootReducer, persistedState, applyMiddleware(thunk))
+
 
 store.subscribe( () => {
     saveState({

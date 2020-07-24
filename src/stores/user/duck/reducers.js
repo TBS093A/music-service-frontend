@@ -1,7 +1,6 @@
 import types from './types'
-import User from './class'
 
-const INITIAL_STATE: User = {
+const INITIAL_STATE = {
     id: -1,
     username: '',
     email: '',
@@ -11,7 +10,7 @@ const INITIAL_STATE: User = {
     token: ''
 }
 
-const userReducer = (state=INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case types.LOGIN_USER:
             return {
