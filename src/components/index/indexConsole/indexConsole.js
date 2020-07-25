@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 
 import commands from './commands/commands'
 import Login from './commands/fetchCommands/Login' 
-// import Logout from './commands/fetchCommands/Logout'
+import Logout from './commands/fetchCommands/Logout'
 
 import '../../../styles/general.scss'
 
 
-const IndexConsole = ( user ) => {
+const IndexConsole = ({ user }) => {
 
     useEffect( () => resizeConsoleDiv(), [])
 
@@ -28,7 +29,19 @@ const IndexConsole = ( user ) => {
 
     const consoleInput = React.createRef()
 
-    let consoleUser = 'guest@00x097 * >  '
+    let consoleUser = user.username !== '' 
+                    ? user.username + '@00x097 # >  ' 
+                    : 'guest@00x097 * >  '
+
+    useEffect(
+        () => {
+            if ( user.username !== '' ) {
+                consoleUser = user.username + '@00x097 # >  '
+            } else {
+                consoleUser = 'guest@00x097 * >  '
+            }
+        }
+    )
 
     const detectCommand = (event) => {
         event.preventDefault()
@@ -61,10 +74,18 @@ const IndexConsole = ( user ) => {
             </pre>
             <div id='inputForms'>
                 <div style={ loginCommand === true ? {display: 'block'} : {display: 'none'} } >
-                    <Login visible={ loginCommand } consoleHistory={ consoleHistory } />
+                    <Login 
+                        consoleHistory={ consoleHistory }
+                        setConsoleHistory={ setConsoleHistory } 
+                        componentVisible={ setVisibleLoginForm } 
+                    />
                 </div>
                 <div style={ logoutCommand === true ? {display: 'block'} : {display: 'none'} } >
-                    
+                    <Logout 
+                        consoleHistory={ consoleHistory }
+                        setConsoleHistory={ setConsoleHistory } 
+                        componentVisible={ setVisibleLogoutForm } 
+                    />
                 </div>
             </div>
             <form onSubmit={ detectCommand } style={ loginCommand || logoutCommand ? {display: 'none'} : {display: 'block'} }>
@@ -80,4 +101,8 @@ const IndexConsole = ( user ) => {
     )
 }
 
-export default IndexConsole
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+export default connect(mapStateToProps, )(IndexConsole)

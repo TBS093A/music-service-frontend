@@ -1,50 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { postAuth } from '../../../../../stores/user/duck/operations'
 
 
-const Login = ({ user, postAuth }) => {
+const Login = ({ user, postAuth, consoleHistory, setConsoleHistory, componentVisible }) => {
     
     const loginInput = React.createRef()
     const passwInput = React.createRef()
 
     const [message, setMessage] = useState('')
 
-    const login = (event) => {
+    const login = async (event) => {
         event.preventDefault()
-        if ( loginInput.current.value !== '' &&
-        passwInput.current.value !== '') {
-            postAuth(
-                loginInput.current.value, 
-                passwInput.current.value
-            ).then( response => {
-                setMessage(response['error'])
+        
+        let login = loginInput.current.value 
+        let password = passwInput.current.value
+
+        if ( login !== '' && password !== '') {
+            
+            postAuth(login, password)
+            .then( response => {
+                setMessage( response['error'] )
             })
-            document.getElementById('passwInput').disbled = true
-            document.getElementById('passwInput').disabled = true
+
         } else if ( passwInput.current.value === '' ) {
             document.getElementById('passwInput').focus()
         }
     }
     
+    useEffect( 
+        () => {
+            if (message !== '') {
+                let save = 'login: ' + loginInput.current.value  + '\n'
+                         + 'password: ' + hidePassword( passwInput.current.value ) + '\n'
+                         + message + '\n'
+
+                loginInput.current.value = ''
+                passwInput.current.value = ''
+
+                setConsoleHistory( consoleHistory + save )
+                componentVisible( false )
+                setMessage('')
+            }
+        }
+    )
+
+    const hidePassword = (password) => {
+        let hide = ''
+        for (let i = 0; i <= password.length; i++)
+            hide += '*'
+        return hide
+    }
+
     return (
         <div>
             <form onSubmit={ login }>
                 login:
                 <input 
                     id='loginInput'
+                    autoComplete='off'
                     ref={ loginInput }
                 />
                 <br />
                 password:
                 <input 
                     id='passwInput'
+                    autoComplete='off'
                     type='password'
                     ref={ passwInput }
                 />
                 <br />
-                { message }
                 <button type='submit' />
             </form>
         </div>
@@ -57,6 +83,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     postAuth: (username, password) => dispatch( postAuth(username, password) )
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -5,7 +5,13 @@ import ConsoleLoad from '../consoleLoad'
 const help = () => {
     return    "register                                            - register user by form \n"
             + "login                                               - login user by form \n"
-            + "logout                                              - logout user \n"
+            + "start                                               - start command \n"
+            + "    -a      --app                                   - app flag - start music service app \n"
+            + "clean                                               - clean screen \n"
+}
+
+const helpUser = () => {
+    return  "logout                                              - logout user \n"
             + "start                                               - start command \n"
             + "    -a      --app                                   - app flag - start music service app \n"
             + "clean                                               - clean screen \n"
@@ -34,6 +40,7 @@ const undefined = (command) => {
 
 export default {
     help,
+    helpUser,
     register,
     startApp,
     undefined

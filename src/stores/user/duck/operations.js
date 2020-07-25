@@ -15,27 +15,31 @@ export const postAuth = (username, password) => async (dispatch) => {
         username: username,
         password: password
     }
-    return await AppService._post(
-        endpoint + 'auth',
-        body,
-        AppService.defaultToken
-    ).then( response => {
-        try {
-            serviceUser = {
-                id: response.user.id,
-                username: response.user.username,
-                email: response.user.email,
-                ip: response.user.ip,
-                city: response.user.city,
-                country: response.user.country,
-                token: response.Authorization
+    try {
+        return await AppService._post(
+            endpoint + 'auth',
+            body,
+            AppService.defaultToken
+        ).then( response => {
+            try {
+                serviceUser = {
+                    id: response.user.id,
+                    username: response.user.username,
+                    email: response.user.email,
+                    ip: response.user.ip,
+                    city: response.user.city,
+                    country: response.user.country,
+                    token: response.Authorization
+                }
+                dispatch(actions.login(serviceUser))
+                return { error: 'login success' }
+            } catch {
+                return { error: 'login failed' }
             }
-            dispatch(actions.login(serviceUser))
-            return { error: 'login success' }
-        } catch {
-            return response
-        }
-    })
+        }) 
+    } catch {
+        return { error: 'connection failed' }
+    } 
 }
 
 export const deleteAuth = (token)  => async (dispatch) => {
