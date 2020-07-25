@@ -4,7 +4,13 @@ import { connect } from 'react-redux'
 import { postAuth } from '../../../../../stores/user/duck/operations'
 
 
-const Login = ({ user, postAuth, consoleHistory, setConsoleHistory, componentVisible }) => {
+const Login = ({ 
+    user, 
+    postAuth, 
+    consoleHistory, setConsoleHistory, 
+    componentVisible, setComponentVisible,
+    activateConsoleInput
+}) => {
     
     const loginInput = React.createRef()
     const passwInput = React.createRef()
@@ -20,9 +26,9 @@ const Login = ({ user, postAuth, consoleHistory, setConsoleHistory, componentVis
         if ( login !== '' && password !== '') {
             
             postAuth(login, password)
-            .then( response => {
-                setMessage( response['error'] )
-            })
+                .then( response => {
+                    setMessage( response['error'] )
+                })
 
         } else if ( passwInput.current.value === '' ) {
             document.getElementById('passwInput').focus()
@@ -31,16 +37,21 @@ const Login = ({ user, postAuth, consoleHistory, setConsoleHistory, componentVis
     
     useEffect( 
         () => {
+            if ( componentVisible ) {
+                document.getElementById('loginInput').focus()
+            } else {
+                activateConsoleInput()
+            }
             if (message !== '') {
-                let save = 'login: ' + loginInput.current.value  + '\n'
-                         + 'password: ' + hidePassword( passwInput.current.value ) + '\n'
+                let save = 'login:  ' + loginInput.current.value  + '\n'
+                         + 'password:  ' + hidePassword( passwInput.current.value ) + '\n'
                          + message + '\n'
 
                 loginInput.current.value = ''
                 passwInput.current.value = ''
 
                 setConsoleHistory( consoleHistory + save )
-                componentVisible( false )
+                setComponentVisible( false )
                 setMessage('')
             }
         }
@@ -48,7 +59,7 @@ const Login = ({ user, postAuth, consoleHistory, setConsoleHistory, componentVis
 
     const hidePassword = (password) => {
         let hide = ''
-        for (let i = 0; i <= password.length; i++)
+        for (let i = 0; i < password.length; i++)
             hide += '*'
         return hide
     }

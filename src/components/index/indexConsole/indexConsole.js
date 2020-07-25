@@ -10,18 +10,6 @@ import '../../../styles/general.scss'
 
 const IndexConsole = ({ user }) => {
 
-    useEffect( () => resizeConsoleDiv(), [])
-
-    const resizeConsoleDiv = () => {
-        let consoleDiv = document.getElementById('consoleDiv')
-        consoleDiv.style.height = window.innerHeight - 100 + 'px'
-    }
-
-    const activateInput = () => {
-        let input = document.getElementById('consoleInput')
-        input.focus()
-    }
-
     const [consoleHistory, setConsoleHistory] = useState('')
 
     const [loginCommand, setVisibleLoginForm] = useState(false)
@@ -43,22 +31,53 @@ const IndexConsole = ({ user }) => {
         }
     )
 
+    useEffect( () => resizeConsoleDiv(), [])
+
+    const resizeConsoleDiv = () => {
+        let consoleDiv = document.getElementById('consoleDiv')
+        consoleDiv.style.height = window.innerHeight - 100 + 'px'
+    }
+
     const detectCommand = (event) => {
         event.preventDefault()
         let inputValue = consoleInput.current.value
         consoleUser += inputValue + '\n'
-        if ( inputValue === 'help' )
-            setConsoleHistory( consoleHistory + consoleUser + commands.help() )
-        else if ( inputValue === 'login' ) {
-            setConsoleHistory( consoleHistory + consoleUser )
-            setVisibleLoginForm( !loginCommand )
+
+        if ( user.username !== '' ) {
+            if ( inputValue === 'help' ){
+                setConsoleHistory( consoleHistory + consoleUser + commands.helpUser() )
+            } else if ( inputValue === 'logout' ) {
+                setConsoleHistory( consoleHistory + consoleUser )
+                setVisibleLogoutForm( !logoutCommand )
+            } else if ( inputValue === 'clean' ){
+                setConsoleHistory( '' )
+            } else {
+                setConsoleHistory( consoleHistory + consoleUser + commands.undefined(inputValue) )
+            } 
+        } else {
+            if ( inputValue === 'help' ){
+                setConsoleHistory( consoleHistory + consoleUser + commands.help() )
+            } else if ( inputValue === 'login' ) {
+                setConsoleHistory( consoleHistory + consoleUser )
+                setVisibleLoginForm( !loginCommand )
+            } else if ( inputValue === 'clean' ){
+                setConsoleHistory( '' )
+            } else {
+                setConsoleHistory( consoleHistory + consoleUser + commands.undefined(inputValue) )
+            } 
         }
-        else if ( inputValue === 'clean' )
-            setConsoleHistory( '' )
-        else
-            setConsoleHistory( consoleHistory + consoleUser + commands.undefined(inputValue) )
         consoleInput.current.value = ''
         activateInput()
+    }
+
+    const activateInput = () => {
+        document.getElementById('consoleInput').focus()
+    }
+
+    const checkVisible = ( bool ) => {
+        return bool 
+            ? { display: 'block' } 
+            : { display: 'none' }
     }
 
     return (
@@ -73,22 +92,26 @@ const IndexConsole = ({ user }) => {
                     { consoleHistory }
             </pre>
             <div id='inputForms'>
-                <div style={ loginCommand === true ? {display: 'block'} : {display: 'none'} } >
+                <div style={ checkVisible( loginCommand ) } >
                     <Login 
                         consoleHistory={ consoleHistory }
-                        setConsoleHistory={ setConsoleHistory } 
-                        componentVisible={ setVisibleLoginForm } 
+                        setConsoleHistory={ setConsoleHistory }
+                        componentVisible={ loginCommand }
+                        setComponentVisible={ setVisibleLoginForm }
+                        activateConsoleInput={ activateInput }
                     />
                 </div>
-                <div style={ logoutCommand === true ? {display: 'block'} : {display: 'none'} } >
+                <div style={ checkVisible( logoutCommand ) } >
                     <Logout 
                         consoleHistory={ consoleHistory }
                         setConsoleHistory={ setConsoleHistory } 
-                        componentVisible={ setVisibleLogoutForm } 
+                        componentVisible={ logoutCommand }
+                        setComponentVisible={ setVisibleLogoutForm }
+                        activateConsoleInput={ activateInput }
                     />
                 </div>
             </div>
-            <form onSubmit={ detectCommand } style={ loginCommand || logoutCommand ? {display: 'none'} : {display: 'block'} }>
+            <form onSubmit={ detectCommand } style={ checkVisible( !(loginCommand || logoutCommand) ) }>
                 { consoleUser }
                 <input 
                     id='consoleInput'
