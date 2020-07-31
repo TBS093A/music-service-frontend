@@ -15,13 +15,13 @@ const AlbumGetAll = ({
     const [message, setMessage] = useState('')
     const [oneRequest, setOne ] = useState(false)
 
-    const mapAlbumsToString = () => {
+    const mapAlbumsToString = (albums) => {
         let list = '.albums\n'
-        for (let i = 0; i < album.albums.length; i++) {
-            list += '├── ' + album.albums[i].title + '\n'
-                 + '│   ├── id: ' + album.albums[i].id + '\n'
-                 + '│   ├── user id: ' + album.albums[i].user_id + '\n'
-                 + '│   └── url: ' + album.albums[i].url_code + '\n'
+        for (let i = 0; i < albums.length; i++) {
+            list += '├── ' + albums[i].title + '\n'
+                 + '│   ├── id: ' + albums[i].id + '\n'
+                 + '│   ├── user id: ' + albums[i].user_id + '\n'
+                 + '│   └── url: ' + albums[i].url_code + '\n'
         }
         return list
     }
@@ -30,8 +30,11 @@ const AlbumGetAll = ({
         () => {
             if (componentVisible && oneRequest === false) {
                 getAllAlbum()
-                    .then( () => {
-                        setMessage( 'get list success\n' )
+                    .then( response => {
+                        setMessage(
+                            mapAlbumsToString( response )
+                            + 'get list success\n' 
+                        )
                     }).catch( () => {
                         setMessage( 'get list failed\n' )
                     })
@@ -39,8 +42,8 @@ const AlbumGetAll = ({
             } else {
                 activateConsoleInput()
             }
-            if (componentVisible && album.albums.length > 0) {
-                setConsoleHistory(consoleHistory + mapAlbumsToString() + message)
+            if ( message !== '' ) {
+                setConsoleHistory(consoleHistory + message)
                 setComponentVisible(false)
                 setOne( !oneRequest )
                 setMessage('')

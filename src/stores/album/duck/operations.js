@@ -42,7 +42,7 @@ export const updateAlbum = async (id, album, token) => {
 
 export const deleteAlbum = async (id, token) => {
     return await AppService._delete(
-        endpoint + id,
+        endpoint + id + '/',
         token
     )
 }

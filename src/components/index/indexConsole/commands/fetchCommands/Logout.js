@@ -19,16 +19,16 @@ const Logout = ({
             if ( componentVisible && oneRequest === false ) {
                 deleteAuth(user.token)
                     .then( () => {
-                        setMessage( 'logout success\n' )
+                        setMessage( 'logout success' )
                     }).catch( () => {
-                        setMessage( 'logout failed\n' )
+                        setMessage( 'logout failed' )
                     })
                 setOne( !oneRequest )
             } else {
                 activateConsoleInput()
             }
             if ( message !== '' ) {
-                setConsoleHistory( consoleHistory + message )
+                setConsoleHistory( consoleHistory + message + '\n' )
                 setComponentVisible( false )
                 setOne( false )
                 setMessage('')

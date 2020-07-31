@@ -9,6 +9,7 @@ import AlbumGetAll from './commands/fetchCommands/Album/GetAll'
 import AlbumGetOne from './commands/fetchCommands/Album/GetOne'
 import AlbumCreate from './commands/fetchCommands/Album/Create'
 import AlbumUpdate from './commands/fetchCommands/Album/Update'
+import AlbumDelete from './commands/fetchCommands/Album/Delete'
 
 import '../../../styles/general.scss'
 
@@ -77,6 +78,9 @@ const IndexConsole = ({
             } else if ( inputValue === 'update album' ) { 
                 setConsoleHistory( consoleHistory + consoleUser )
                 setAlbumUpdate( !albumUpdate )
+            } else if ( inputValue === 'delete album' ) { 
+                setConsoleHistory( consoleHistory + consoleUser )
+                setAlbumDelete( !albumDelete )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -176,6 +180,15 @@ const IndexConsole = ({
                         setConsoleHistory={ setConsoleHistory }
                         componentVisible={ albumUpdate }
                         setComponentVisible={ setAlbumUpdate }
+                        activateConsoleInput={ activateInput }
+                    />
+                </div>
+                <div style={ checkVisible( albumDelete ) }>
+                    <AlbumDelete 
+                        consoleHistory={ consoleHistory }
+                        setConsoleHistory={ setConsoleHistory }
+                        componentVisible={ albumDelete }
+                        setComponentVisible={ setAlbumDelete }
                         activateConsoleInput={ activateInput }
                     />
                 </div>
