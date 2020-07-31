@@ -42,7 +42,7 @@ export const postAuth = (username, password) => async (dispatch) => {
     } 
 }
 
-export const deleteAuth = (token)  => async (dispatch) => {
+export const deleteAuth = (token) => async (dispatch) => {
     try {
         response = await AppService._delete(
             endpoint + 'auth',
