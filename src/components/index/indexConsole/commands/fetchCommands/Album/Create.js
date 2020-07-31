@@ -25,9 +25,9 @@ const AlbumCreate = ({
         let image = imageInput.current.value
         if ( title !== '' && description !== '' && image !== '' ) {
             createFetch(title, description, image)
-        } else if ( description !== '' && image !== '' ) {
+        } if ( description !== '' && image !== '' ) {
             document.getElementById('descriptionAlbumInput').focus()
-        } else if ( image !== '' ) {
+        } if ( image !== '' ) {
             document.getElementById('imageAlbumInput').focus()
         }
     }
@@ -86,7 +86,7 @@ const AlbumCreate = ({
                 descriptionInput.current.value = ''
                 imageInput.current.value = ''
 
-                setConsoleHistory( consoleHistory + message )
+                setConsoleHistory( consoleHistory + message + '\n' )
                 setComponentVisible( false )
                 setMessage('')
             }
@@ -125,7 +125,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    createAlbum: (album, token) => dispatch( createAlbum(album, token) )
+    createAlbum: (album, token) => createAlbum(album, token)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumCreate)

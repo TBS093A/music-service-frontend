@@ -32,9 +32,9 @@ export const createAlbum = async (album, token) => {
     )
 }
 
-export const updateAlbum = async (album, token) => {
+export const updateAlbum = async (id, album, token) => {
     return await AppService._patch(
-        endpoint,
+        endpoint + id + '/',
         album,
         token
     )
