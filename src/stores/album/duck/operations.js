@@ -11,14 +11,16 @@ export const getAllAlbum = () => async (dispatch) => {
         endpoint
     ).then( response => {
         dispatch( actions.getAll( response ) )
+        return response
     })
 } 
 
 export const getOneAlbum = (id) => async( dispatch ) => {
     return await AppService._getOne(
-        endpoint + id
+        endpoint + id + '/'
     ).then( response => {
         dispatch( actions.getOne( response ) )
+        return response
     })
 }
 

@@ -19,9 +19,9 @@ const Logout = ({
             if ( componentVisible && oneRequest === false ) {
                 deleteAuth(user.token)
                     .then( () => {
-                        setMessage( 'logout success' )
+                        setMessage( 'logout success\n' )
                     }).catch( () => {
-                        setMessage( 'logout failed' )
+                        setMessage( 'logout failed\n' )
                     })
                 setOne( !oneRequest )
             } else {

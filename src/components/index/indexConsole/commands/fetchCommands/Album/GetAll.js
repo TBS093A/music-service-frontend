@@ -4,75 +4,63 @@ import { connect } from 'react-redux'
 import { getAllAlbum } from '../../../../../../stores/album/duck/operations'
 
 
-const AlbumGetAll = ({ 
-    album, 
-    getAllAlbum, 
-    consoleHistory, setConsoleHistory, 
+const AlbumGetAll = ({
+    album,
+    getAllAlbum,
+    consoleHistory, setConsoleHistory,
     componentVisible, setComponentVisible,
     activateConsoleInput
 }) => {
 
     const [message, setMessage] = useState('')
-    
+    const [oneRequest, setOne ] = useState(false)
+
     const mapAlbumsToString = () => {
-        setMessage( '.albums' )
-        album.albums.map( singleAlbum => {
-                setMessage( message  + '├── ' + singleAlbum.title + '\n'
-                                     + '│   ├── id: ' + singleAlbum.id + '\n' 
-                                     + '│   ├── user id: ' + singleAlbum.user_id + '\n'
-                                     + '│   └── url: ' + singleAlbum.url_code + '\n'
-                )
-            }
-        )
+        let list = '.albums\n'
+        for (let i = 0; i < album.albums.length; i++) {
+            list += '├── ' + album.albums[i].title + '\n'
+                 + '│   ├── id: ' + album.albums[i].id + '\n'
+                 + '│   ├── user id: ' + album.albums[i].user_id + '\n'
+                 + '│   └── url: ' + album.albums[i].url_code + '\n'
+        }
+        return list
     }
 
-    useEffect( 
+    useEffect(
         () => {
-            if ( componentVisible ) {
+            if (componentVisible && oneRequest === false) {
                 getAllAlbum()
+                    .then( () => {
+                        setMessage( 'get list success\n' )
+                    }).catch( () => {
+                        setMessage( 'get list failed\n' )
+                    })
+                setOne( !oneRequest )
             } else {
-                activateConsoleInput()         
+                activateConsoleInput()
             }
-            if ( componentVisible && album.albums.length > 0 ) {
-                mapAlbumsToString()
-
-                setConsoleHistory( consoleHistory + message )
-                setComponentVisible( false )
+            if (componentVisible && album.albums.length > 0) {
+                setConsoleHistory(consoleHistory + mapAlbumsToString() + message)
+                setComponentVisible(false)
+                setOne( !oneRequest )
                 setMessage('')
-            } else if ( componentVisible && album.albums.length <= 0 ) {
-                setConsoleHistory( consoleHistory + 'empty' )
-                setComponentVisible( false )
-                setMessage('')
-            }
+            } 
         }
     )
 
     return (
         <div>
-            
+
         </div>
     )
 }
-
-            // .albums 
-            // { album.albums.map( singleAlbum => {
-            //         return (
-            //             <div>
-            //                 │   ├── { singleAlbum.id } <br />
-            //                 │   ├── { singleAlbum.user_id } <br />
-            //                 │   ├── { singleAlbum.title } <br />
-            //                 │   ├── { singleAlbum.url_code }
-            //             </div>
-            //         )
-            //     }) 
-            // }
 
 const mapStateToProps = state => ({
     album: state.album
 })
 
 const mapDispatchToProps = dispatch => ({
-    getAllAlbum: () => dispatch( getAllAlbum() )
+    getAllAlbum: () => dispatch(getAllAlbum())
 
 })
 

@@ -7,10 +7,12 @@ import Logout from './commands/fetchCommands/Logout'
 
 import AlbumGetAll from './commands/fetchCommands/Album/GetAll'
 import AlbumGetOne from './commands/fetchCommands/Album/GetOne'
+import AlbumCreate from './commands/fetchCommands/Album/Create'
 
 import '../../../styles/general.scss'
 
 import { deleteAuth } from '../../../stores/user/duck/operations'
+import { createAlbum } from '../../../stores/album/duck/operations'
 
 const IndexConsole = ({ 
     user,
@@ -69,6 +71,9 @@ const IndexConsole = ({
             } else if ( inputValue === 'get one album' ) {
                 setConsoleHistory( consoleHistory + consoleUser )
                 setAlbumGetOne( !albumGetOne )
+            } else if ( inputValue === 'create album' ) {
+                setConsoleHistory( consoleHistory + consoleUser )
+                setAlbumCreate( !albumCreate )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -150,6 +155,15 @@ const IndexConsole = ({
                         setConsoleHistory={ setConsoleHistory }
                         componentVisible={ albumGetOne }
                         setComponentVisible={ setAlbumGetOne }
+                        activateConsoleInput={ activateInput }
+                    />    
+                </div>
+                <div style={ checkVisible( albumCreate ) }>
+                    <AlbumCreate 
+                        consoleHistory={ consoleHistory }
+                        setConsoleHistory={ setConsoleHistory }
+                        componentVisible={ albumCreate }
+                        setComponentVisible={ setAlbumCreate }
                         activateConsoleInput={ activateInput }
                     />    
                 </div>
