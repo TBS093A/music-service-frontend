@@ -60,7 +60,7 @@ export const deleteAuth = (token)  => async (dispatch) => {
 
 export const registerUser = async (user) => {
     response = await AppService._post(
-        this.endpoint,
+        endpoint,
         user,
         AppService.defaultToken
     )
