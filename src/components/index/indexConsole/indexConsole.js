@@ -2,18 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 import commands from './commands/commands'
-import Login from './commands/fetchCommands/Login' 
+import Login from './commands/fetchCommands/Login'
 import Logout from './commands/fetchCommands/Logout'
 
 import '../../../styles/general.scss'
 
+import { deleteAuth } from '../../../stores/user/duck/operations'
 
-const IndexConsole = ({ user }) => {
+const IndexConsole = ({ 
+    user,
+    deleteAuth
+}) => {
 
     const [consoleHistory, setConsoleHistory] = useState('')
 
-    const [loginCommand, setVisibleLoginForm] = useState(false)
-    const [logoutCommand, setVisibleLogoutForm] = useState(false)
+    const [login, setLogin] = useState(false)
+    const [logout, setLogout] = useState(false)
+    const [register, setRegister] = useState(false)
 
     const consoleInput = React.createRef()
 
@@ -48,7 +53,7 @@ const IndexConsole = ({ user }) => {
                 setConsoleHistory( consoleHistory + consoleUser + commands.helpUser() )
             } else if ( inputValue === 'logout' ) {
                 setConsoleHistory( consoleHistory + consoleUser )
-                setVisibleLogoutForm( !logoutCommand )
+                setLogout( !logout )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -59,7 +64,9 @@ const IndexConsole = ({ user }) => {
                 setConsoleHistory( consoleHistory + consoleUser + commands.help() )
             } else if ( inputValue === 'login' ) {
                 setConsoleHistory( consoleHistory + consoleUser )
-                setVisibleLoginForm( !loginCommand )
+                setLogin( !login )
+            } else if ( inputValue === 'register' ) {
+
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -92,26 +99,29 @@ const IndexConsole = ({ user }) => {
                     { consoleHistory }
             </pre>
             <div id='inputForms'>
-                <div style={ checkVisible( loginCommand ) } >
+                <div style={ checkVisible( login ) } >
                     <Login 
                         consoleHistory={ consoleHistory }
                         setConsoleHistory={ setConsoleHistory }
-                        componentVisible={ loginCommand }
-                        setComponentVisible={ setVisibleLoginForm }
+                        componentVisible={ login }
+                        setComponentVisible={ setLogin }
                         activateConsoleInput={ activateInput }
                     />
                 </div>
-                <div style={ checkVisible( logoutCommand ) } >
-                    <Logout 
+                <div style={ checkVisible( logout ) }> 
+                    <Logout
                         consoleHistory={ consoleHistory }
-                        setConsoleHistory={ setConsoleHistory } 
-                        componentVisible={ logoutCommand }
-                        setComponentVisible={ setVisibleLogoutForm }
+                        setConsoleHistory={ setConsoleHistory }
+                        componentVisible={ logout }
+                        setComponentVisible={ setLogout }
                         activateConsoleInput={ activateInput }
                     />
+                </div>
+                <div style={ checkVisible( register ) } >
+
                 </div>
             </div>
-            <form onSubmit={ detectCommand } style={ checkVisible( !(loginCommand || logoutCommand) ) }>
+            <form onSubmit={ detectCommand } style={ checkVisible( !(register || login || logout) ) }>
                 { consoleUser }
                 <input 
                     id='consoleInput'
@@ -128,4 +138,8 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, )(IndexConsole)
+const mapDispatchToProps = dispatch => ({
+    deleteAuth: (token) => dispatch( deleteAuth(token) )
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(IndexConsole)

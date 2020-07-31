@@ -43,11 +43,17 @@ export const postAuth = (username, password) => async (dispatch) => {
 }
 
 export const deleteAuth = (token)  => async (dispatch) => {
-    response = await AppService._delete(
-        endpoint + 'auth',
-        token
-    )
-    dispatch(actions.logout())
+    try {
+        response = await AppService._delete(
+            endpoint + 'auth',
+            token
+        ).then( () => {
+            dispatch(actions.logout())
+            return { error: 'logout success'}
+        })
+    } catch {
+        return { error: 'connection failed' }
+    }
 }
 
 // User CRUD
