@@ -5,6 +5,9 @@ import commands from './commands/commands'
 import Login from './commands/fetchCommands/Login'
 import Logout from './commands/fetchCommands/Logout'
 
+import AlbumGetAll from './commands/fetchCommands/Album/GetAll'
+import AlbumGetOne from './commands/fetchCommands/Album/GetOne'
+
 import '../../../styles/general.scss'
 
 import { deleteAuth } from '../../../stores/user/duck/operations'
@@ -19,6 +22,12 @@ const IndexConsole = ({
     const [login, setLogin] = useState(false)
     const [logout, setLogout] = useState(false)
     const [register, setRegister] = useState(false)
+
+    const [albumGetAll, setAlbumGetAll] = useState(false)
+    const [albumGetOne, setAlbumGetOne] = useState(false)
+    const [albumCreate, setAlbumCreate] = useState(false)
+    const [albumUpdate, setAlbumUpdate] = useState(false)
+    const [albumDelete, setAlbumDelete] = useState(false)
 
     const consoleInput = React.createRef()
 
@@ -54,6 +63,12 @@ const IndexConsole = ({
             } else if ( inputValue === 'logout' ) {
                 setConsoleHistory( consoleHistory + consoleUser )
                 setLogout( !logout )
+            } else if ( inputValue === 'get all album') {
+                setConsoleHistory( consoleHistory + consoleUser )
+                setAlbumGetAll( !albumGetAll )
+            } else if ( inputValue === 'get one album' ) {
+                setConsoleHistory( consoleHistory + consoleUser )
+                setAlbumGetOne( !albumGetOne )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -120,8 +135,29 @@ const IndexConsole = ({
                 <div style={ checkVisible( register ) } >
 
                 </div>
+                <div style={ checkVisible( albumGetAll ) }>
+                    <AlbumGetAll
+                        consoleHistory={ consoleHistory }
+                        setConsoleHistory={ setConsoleHistory }
+                        componentVisible={ albumGetAll }
+                        setComponentVisible={ setAlbumGetAll }
+                        activateConsoleInput={ activateInput }
+                    />
+                </div>
+                <div style={ checkVisible( albumGetOne ) }>
+                    <AlbumGetOne
+                        consoleHistory={ consoleHistory }
+                        setConsoleHistory={ setConsoleHistory }
+                        componentVisible={ albumGetOne }
+                        setComponentVisible={ setAlbumGetOne }
+                        activateConsoleInput={ activateInput }
+                    />    
+                </div>
             </div>
-            <form onSubmit={ detectCommand } style={ checkVisible( !(register || login || logout) ) }>
+            <form onSubmit={ detectCommand } style={ checkVisible( !(
+                register || login || logout ||
+                albumGetAll || albumGetOne || albumCreate || albumUpdate || albumDelete
+            ) ) }>
                 { consoleUser }
                 <input 
                     id='consoleInput'
