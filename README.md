@@ -1,6 +1,6 @@
 ## Music Service [ANSI / ASCII Only Chellenge]
 
-ReactJS / Gatsby / Sass
+ReactJS / Redux / Gatsby / Sass
 
 1.  **Loading Page**
 
