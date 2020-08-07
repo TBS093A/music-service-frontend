@@ -19,9 +19,9 @@ const AlbumGetAll = ({
         let list = '.albums\n'
         for (let i = 0; i < albums.length; i++) {
             list += '├── ' + albums[i].title + '\n'
-                 + '│   ├── id: ' + albums[i].id + '\n'
-                 + '│   ├── user id: ' + albums[i].user_id + '\n'
-                 + '│   └── url: ' + albums[i].url_code + '\n'
+                 + '│       ├── id: ' + albums[i].id + '\n'
+                 + '│       ├── user id: ' + albums[i].user_id + '\n'
+                 + '│       └── url: ' + albums[i].url_code + '\n'
         }
         return list
     }

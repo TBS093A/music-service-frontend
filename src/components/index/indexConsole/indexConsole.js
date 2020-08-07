@@ -13,11 +13,8 @@ import AlbumDelete from './commands/fetchCommands/Album/Delete'
 
 import '../../../styles/general.scss'
 
-import { deleteAuth } from '../../../stores/user/duck/operations'
-
 const IndexConsole = ({ 
-    user,
-    deleteAuth
+    user
 }) => {
 
     const [consoleHistory, setConsoleHistory] = useState('')
@@ -60,27 +57,17 @@ const IndexConsole = ({
         let inputValue = consoleInput.current.value
         consoleUser += inputValue + '\n'
 
+        let splitCommand = inputValue.split(' ')
+        let choiceCRUD = splitCommand[ splitCommand.length - 1 ]
+
         if ( user.username !== '' ) {
             if ( inputValue === 'help' ){
                 setConsoleHistory( consoleHistory + consoleUser + commands.helpUser() )
             } else if ( inputValue === 'logout' ) {
                 setConsoleHistory( consoleHistory + consoleUser )
                 setLogout( !logout )
-            } else if ( inputValue === 'get all album') {
-                setConsoleHistory( consoleHistory + consoleUser )
-                setAlbumGetAll( !albumGetAll )
-            } else if ( inputValue === 'get one album' ) {
-                setConsoleHistory( consoleHistory + consoleUser )
-                setAlbumGetOne( !albumGetOne )
-            } else if ( inputValue === 'create album' ) {
-                setConsoleHistory( consoleHistory + consoleUser )
-                setAlbumCreate( !albumCreate )
-            } else if ( inputValue === 'update album' ) { 
-                setConsoleHistory( consoleHistory + consoleUser )
-                setAlbumUpdate( !albumUpdate )
-            } else if ( inputValue === 'delete album' ) { 
-                setConsoleHistory( consoleHistory + consoleUser )
-                setAlbumDelete( !albumDelete )
+            } else if ( choiceCRUD === 'album' ) {
+                albumCRUD( inputValue )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -102,6 +89,25 @@ const IndexConsole = ({
         }
         consoleInput.current.value = ''
         activateInput()
+    }
+
+    const albumCRUD = ( inputValue ) => {
+        if ( inputValue === 'get all album') {
+            setConsoleHistory( consoleHistory + consoleUser )
+            setAlbumGetAll( !albumGetAll )
+        } else if ( inputValue === 'get one album' ) {
+            setConsoleHistory( consoleHistory + consoleUser )
+            setAlbumGetOne( !albumGetOne )
+        } else if ( inputValue === 'create album' ) {
+            setConsoleHistory( consoleHistory + consoleUser )
+            setAlbumCreate( !albumCreate )
+        } else if ( inputValue === 'update album' ) { 
+            setConsoleHistory( consoleHistory + consoleUser )
+            setAlbumUpdate( !albumUpdate )
+        } else if ( inputValue === 'delete album' ) { 
+            setConsoleHistory( consoleHistory + consoleUser )
+            setAlbumDelete( !albumDelete )
+        }
     }
 
     const activateInput = () => {
@@ -214,7 +220,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    deleteAuth: (token) => dispatch( deleteAuth(token) )
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(IndexConsole)

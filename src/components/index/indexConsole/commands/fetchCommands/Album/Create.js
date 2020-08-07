@@ -101,19 +101,19 @@ const AlbumCreate = ({
                         id='titleAlbumInput'
                         autoComplete='off'
                         ref={ titleInput }
-                    />
+                    /> <br />
                 description:
                 <input 
                         id='descriptionAlbumInput'
                         autoComplete='off'
                         ref={ descriptionInput }
-                    />
+                    /> <br />
                 image:
                 <input 
                         id='imageAlbumInput'
                         autoComplete='off'
                         ref={ imageInput }
-                    />
+                    /> <br />
                 <button type='submit' />
             </form>
         </div>
