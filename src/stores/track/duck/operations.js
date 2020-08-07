@@ -55,7 +55,10 @@ export const createTrackRow = async ( track, token ) => {
         trackRowEndpoint,
         track,
         token
-    )
+    ).then( response => {
+        dispatch( actions.addRow( response ) )
+        return response
+    })
 }
 
 export const updateTrackRow = async ( id, track, token ) => {
@@ -74,3 +77,26 @@ export const deleteTrackRow = async ( id ) => {
 }
 
 // Track Ratings CRUD
+
+export const getAllTrackRating = (id) => async ( dispatch ) => {
+    return await AppService._getList(
+        trackEndpoint + id + '/ratings/'
+    ).then( response => {
+        dispatch( actions.getRatings( response ) )
+    })
+}
+
+export const createTrackRating = (track_id, rating, token) => {
+    return await AppService._post(
+        trackEndpoint + track_id + '/rating/',
+        rating,
+        token
+    )
+}
+
+export const deleteTrackRating = (track_id, rating_id, token) => {
+    return await AppService._delete(
+        trackEndpoint + track_id + '/rating/' + rating_id,
+        token
+    )
+}
