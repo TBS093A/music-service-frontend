@@ -35,6 +35,12 @@ const IndexConsole = ({
     const [trackUpdate, setTrackUpdate] = useState(false)
     const [trackDelete, setTrackDelete] = useState(false)
 
+    const [trackRowGetAll, setTrackRowGetAll] = useState(false)
+    const [trackRowGetOne, setTrackRowGetOne] = useState(false)
+    const [trackRowCreate, setTrackRowCreate] = useState(false)
+    const [trackRowUpdate, setTrackRowUpdate] = useState(false)
+    const [trackRowDelete, setTrackRowDelete] = useState(false)
+
     const consoleInput = React.createRef()
 
     let consoleUser = user.username !== '' 
@@ -65,6 +71,10 @@ const IndexConsole = ({
 
         let splitCommand = inputValue.split(' ')
         let choiceCRUD = splitCommand[ splitCommand.length - 1 ]
+        let useCRUD = choiceCRUD === 'album' 
+                   || choiceCRUD === 'track' 
+                   || choiceCRUD === 'track-row'
+                   || choiceCRUD === 'user'
 
         if ( user.username !== '' ) {
             if ( inputValue === 'help' ){
@@ -72,9 +82,7 @@ const IndexConsole = ({
             } else if ( inputValue === 'logout' ) {
                 setConsoleHistory( consoleHistory + consoleUser )
                 setLogout( !logout )
-            } else if ( choiceCRUD === 'album' ) {
-                runCRUD( inputValue, choiceCRUD )
-            } else if ( choiceCRUD === 'track' ) {
+            } else if ( useCRUD ) {
                 runCRUD( inputValue, choiceCRUD )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
@@ -102,25 +110,50 @@ const IndexConsole = ({
     const runCRUD = ( inputValue, object ) => {
         if ( inputValue === 'get all ' + object ) {
             setConsoleHistory( consoleHistory + consoleUser )
-            if (object === 'track') setTrackGetAll( !trackGetAll )
-            if (object === 'album') setAlbumGetAll( !albumGetAll )
+            getAll( object )
         } else if ( inputValue === 'get one ' + object ) {
             setConsoleHistory( consoleHistory + consoleUser )
-            if (object === 'track') setTrackGetOne( !trackGetOne )
-            if (object === 'album') setAlbumGetOne( !albumGetOne ) 
+            getOneForm( object )
         } else if ( inputValue === 'create ' + object ) {
             setConsoleHistory( consoleHistory + consoleUser )
-            if (object === 'track') setTrackCreate( !trackCreate )
-            if (object === 'album') setAlbumCreate( !albumCreate )
+            createForm( object )
         } else if ( inputValue === 'update ' + object ) { 
             setConsoleHistory( consoleHistory + consoleUser )
-            if (object === 'track') setTrackUpdate( !trackUpdate )
-            if (object === 'album') setAlbumUpdate( !albumUpdate ) 
+            updateForm( object )
         } else if ( inputValue === 'delete ' + object ) { 
             setConsoleHistory( consoleHistory + consoleUser )
-            if (object === 'track') setTrackDelete( !trackDelete )
-            if (object === 'album') setAlbumDelete( !albumDelete )
+            deleteForm( object )
         }
+    }
+
+    const getAll = ( object ) => {
+        if (object === 'album') setAlbumGetAll( !albumGetAll )
+        if (object === 'track') setTrackGetAll( !trackGetAll )
+        if (object === 'track-row') setTrackRowGetAll( !trackRowGetAll )
+    }
+
+    const getOneForm = ( object ) => {
+        if (object === 'album') setAlbumGetOne( !albumGetOne ) 
+        if (object === 'track') setTrackGetOne( !trackGetOne )
+        if (object === 'track-row') setTrackRowGetOne( !trackRowGetOne )
+    }
+
+    const createForm = ( object ) => {
+        if (object === 'album') setAlbumCreate( !albumCreate )
+        if (object === 'track') setTrackCreate( !trackCreate )
+        if (object === 'track-row') setTrackRowCreate( !trackRowCreate )
+    }
+
+    const updateForm = ( object ) => {
+        if (object === 'album') setAlbumUpdate( !albumUpdate ) 
+        if (object === 'track') setTrackUpdate( !trackUpdate )
+        if (object === 'track-row') setTrackRowUpdate( !trackRowUpdate )
+    }
+
+    const deleteForm = ( object ) => {
+        if (object === 'album') setAlbumDelete( !albumDelete )
+        if (object === 'track') setTrackDelete( !trackDelete )
+        if (object === 'track-row') setTrackRowDelete( !trackRowDelete )
     }
 
     const activateInput = () => {
@@ -166,6 +199,8 @@ const IndexConsole = ({
                 <div style={ checkVisible( register ) } >
 
                 </div>
+
+
                 <div style={ checkVisible( albumGetAll ) }>
                     <AlbumGetAll
                         consoleHistory={ consoleHistory }
@@ -211,10 +246,46 @@ const IndexConsole = ({
                         activateConsoleInput={ activateInput }
                     />
                 </div>
+
+
+                <div style={ checkVisible( trackGetAll ) }>
+
+                </div>
+                <div style={ checkVisible( trackGetOne ) }>
+
+                </div>
+                <div style={ checkVisible( trackCreate ) }>
+
+                </div>
+                <div style={ checkVisible( trackUpdate ) }>
+
+                </div>
+                <div style={ checkVisible( trackDelete ) }>
+
+                </div>
+
+
+                <div style={ checkVisible( trackRowGetAll ) }>
+
+                </div>
+                <div style={ checkVisible( trackRowGetOne ) }>
+
+                </div>
+                <div style={ checkVisible( trackRowCreate ) }>
+
+                </div>
+                <div style={ checkVisible( trackRowUpdate ) }>
+
+                </div>
+                <div style={ checkVisible( trackRowDelete ) }>
+
+                </div>
             </div>
             <form onSubmit={ detectCommand } style={ checkVisible( !(
                 register || login || logout ||
-                albumGetAll || albumGetOne || albumCreate || albumUpdate || albumDelete
+                albumGetAll || albumGetOne || albumCreate || albumUpdate || albumDelete ||
+                trackGetAll || trackGetOne || trackCreate || trackUpdate || trackDelete ||
+                trackRowGetAll || trackRowGetOne || trackRowCreate || trackRowUpdate || trackRowDelete
             ) ) }>
                 { consoleUser }
                 <input 
@@ -232,7 +303,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-const mapDispatchToProps = dispatch => ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(IndexConsole)
+export default connect(mapStateToProps, )(IndexConsole)
