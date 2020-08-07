@@ -29,6 +29,12 @@ const IndexConsole = ({
     const [albumUpdate, setAlbumUpdate] = useState(false)
     const [albumDelete, setAlbumDelete] = useState(false)
 
+    const [trackGetAll, setTrackGetAll] = useState(false)
+    const [trackGetOne, setTrackGetOne] = useState(false)
+    const [trackCreate, setTrackCreate] = useState(false)
+    const [trackUpdate, setTrackUpdate] = useState(false)
+    const [trackDelete, setTrackDelete] = useState(false)
+
     const consoleInput = React.createRef()
 
     let consoleUser = user.username !== '' 
@@ -67,7 +73,9 @@ const IndexConsole = ({
                 setConsoleHistory( consoleHistory + consoleUser )
                 setLogout( !logout )
             } else if ( choiceCRUD === 'album' ) {
-                albumCRUD( inputValue )
+                runCRUD( inputValue, choiceCRUD )
+            } else if ( choiceCRUD === 'track' ) {
+                runCRUD( inputValue, choiceCRUD )
             } else if ( inputValue === 'clean' ){
                 setConsoleHistory( '' )
             } else {
@@ -91,22 +99,27 @@ const IndexConsole = ({
         activateInput()
     }
 
-    const albumCRUD = ( inputValue ) => {
-        if ( inputValue === 'get all album') {
+    const runCRUD = ( inputValue, object ) => {
+        if ( inputValue === 'get all ' + object ) {
             setConsoleHistory( consoleHistory + consoleUser )
-            setAlbumGetAll( !albumGetAll )
-        } else if ( inputValue === 'get one album' ) {
+            if (object === 'track') setTrackGetAll( !trackGetAll )
+            if (object === 'album') setAlbumGetAll( !albumGetAll )
+        } else if ( inputValue === 'get one ' + object ) {
             setConsoleHistory( consoleHistory + consoleUser )
-            setAlbumGetOne( !albumGetOne )
-        } else if ( inputValue === 'create album' ) {
+            if (object === 'track') setTrackGetOne( !trackGetOne )
+            if (object === 'album') setAlbumGetOne( !albumGetOne ) 
+        } else if ( inputValue === 'create ' + object ) {
             setConsoleHistory( consoleHistory + consoleUser )
-            setAlbumCreate( !albumCreate )
-        } else if ( inputValue === 'update album' ) { 
+            if (object === 'track') setTrackCreate( !trackCreate )
+            if (object === 'album') setAlbumCreate( !albumCreate )
+        } else if ( inputValue === 'update ' + object ) { 
             setConsoleHistory( consoleHistory + consoleUser )
-            setAlbumUpdate( !albumUpdate )
-        } else if ( inputValue === 'delete album' ) { 
+            if (object === 'track') setTrackUpdate( !trackUpdate )
+            if (object === 'album') setAlbumUpdate( !albumUpdate ) 
+        } else if ( inputValue === 'delete ' + object ) { 
             setConsoleHistory( consoleHistory + consoleUser )
-            setAlbumDelete( !albumDelete )
+            if (object === 'track') setTrackDelete( !trackDelete )
+            if (object === 'album') setAlbumDelete( !albumDelete )
         }
     }
 
