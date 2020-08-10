@@ -14,7 +14,8 @@ const AlbumCreate = ({
 
     const [message, setMessage] = useState('')
     const [image, setImage] = useState('')
-    const [imageBlob, setImageBlob] = useState('Drop/Click for upload album image...')
+    const [imageInfo, setImageInfo] = useState('Drop/Click\nfor upload album image...')
+    const [progress, setProgress] = useState('')
     
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
@@ -86,7 +87,7 @@ const AlbumCreate = ({
                 setConsoleHistory( consoleHistory + message + '\n' )
                 setComponentVisible( false )
                 setImage('')
-                setImageBlob('Drop/Click for upload album image...')
+                setImageInfo('Drop/Click\nfor upload album image...')
                 setMessage('')
             }
         }
@@ -103,7 +104,8 @@ const AlbumCreate = ({
         event.preventDefault()
         let data = event.target.files[0]
         setImage( await toBase64( data ) )
-        setImageBlob( data.name )
+        uploadListener( data )
+        setImageInfos(data.name, data.size)
     }
 
     const onLoadFileDrop = async ( event ) => {
@@ -111,7 +113,30 @@ const AlbumCreate = ({
         event.persist()
         let data = event.dataTransfer.files[0]
         setImage( await toBase64( data ) )
-        setImageBlob( 'name: "' + data.name + '"\nsize: ' + (Math.round(data.size / 100 + 'e-2') / 100 ) + ' MB' )
+        uploadListener( data )
+        setImageInfos(data.name, data.size)
+    }
+
+    const uploadListener = async ( data ) => {
+        let progress = new Response(data).arrayBuffer()
+        console.log(progress)
+        await uploadProgressBar( progress, data.size )
+    }
+
+    const uploadProgressBar = async ( progress, size ) => {
+        let percent = progress / size
+        setProgress('upload image [____________________]')
+        setProgress( progress + '#' + percent)
+    }
+
+    const setImageInfos = (name, size) => {
+        setImageInfo( 
+            'name: "' 
+            + name 
+            + '"\nsize: ' 
+            + (Math.round(size / 100 + 'e-2') / 100 ) 
+            + ' MB' 
+        )
     }
 
     return (
@@ -133,7 +158,7 @@ const AlbumCreate = ({
                         ref={ descriptionInput }
                     /> <br />
                 <pre style={ {marginTop: '35px', marginLeft: '40px'} }>
-                    { imageBlob }
+                    { imageInfo }
                 </pre>
                 <input  style={ {marginTop: '-55px'} }
                         id='imageAlbumInput'
@@ -142,6 +167,7 @@ const AlbumCreate = ({
                         autoComplete='off'
                         onChange={ event => onLoadFile(event) }
                     /> <br />
+                { progress }
                 <button type='submit' />
             </form>
         </div>
