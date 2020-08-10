@@ -14,6 +14,7 @@ const AlbumCreate = ({
 
     const [message, setMessage] = useState('')
     const [image, setImage] = useState('')
+    const [imageBlob, setImageBlob] = useState('Drop/Click for upload album image...')
     
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
@@ -54,9 +55,9 @@ const AlbumCreate = ({
             'Q', 'W', 'X', 'S', 'q', 'w', 'x', 's'
         ]
         code +=  
-             + hash[ randomInt(7, 15) ] 
-             + hash[ randomInt(7, 15) ] 
-             + hash[ randomInt(7, 15) ] 
+             + hash[ randomInt(7, 14) ] 
+             + hash[ randomInt(7, 14) ] 
+             + hash[ randomInt(7, 14) ] 
              + hash[ randomInt(0, 7) ] 
              + hash[ randomInt(0, 7) ]
              + hash[ randomInt(0, 7) ]
@@ -68,20 +69,6 @@ const AlbumCreate = ({
 
     const randomInt = (min, max) => {
         return min + Math.floor((max - min) * Math.random())
-    }
-
-    const toBase64 = ( file ) => new Promise( (resolve, reject) => {
-        let fileReader = new FileReader()
-        fileReader.readAsDataURL( file )
-        fileReader.onload = () => resolve( fileReader.result )
-        fileReader.onerror = error => reject( error )
-    })
-
-    const onLoadImage = async ( event ) => {
-        event.preventDefault()
-        try {
-            setImage( await toBase64( event.target.files[0] ) )
-        } catch {}
     }
     
     useEffect( 
@@ -98,14 +85,41 @@ const AlbumCreate = ({
 
                 setConsoleHistory( consoleHistory + message + '\n' )
                 setComponentVisible( false )
+                setImage('')
+                setImageBlob('Drop/Click for upload album image...')
                 setMessage('')
             }
         }
     )
 
+    const toBase64 = ( file ) => new Promise( (resolve, reject) => {
+        let fileReader = new FileReader()
+        fileReader.readAsDataURL( file )
+        fileReader.onload = () => resolve( fileReader.result )
+        fileReader.onerror = error => reject( error )
+    })
+
+    const onLoadFile = async ( event ) => {
+        event.preventDefault()
+        let data = event.target.files[0]
+        setImage( await toBase64( data ) )
+        setImageBlob( data.name )
+    }
+
+    const onLoadFileDrop = async ( event ) => {
+        event.preventDefault()
+        event.persist()
+        let data = event.dataTransfer.files[0]
+        setImage( await toBase64( data ) )
+        setImageBlob( 'name: "' + data.name + '"\nsize: ' + (Math.round(data.size / 100 + 'e-2') / 100 ) + ' MB' )
+    }
+
     return (
-        <div>
-            <form onSubmit={ event => create(event) }>
+        <div
+            onDrop={ event => onLoadFileDrop(event) }
+            >
+            <form 
+                onSubmit={ event => create(event) }>
                 title:
                 <input 
                         id='titleAlbumInput'
@@ -118,12 +132,15 @@ const AlbumCreate = ({
                         autoComplete='off'
                         ref={ descriptionInput }
                     /> <br />
-                image:
-                <input 
+                <pre style={ {marginTop: '35px', marginLeft: '40px'} }>
+                    { imageBlob }
+                </pre>
+                <input  style={ {marginTop: '-55px'} }
                         id='imageAlbumInput'
+                        className='uploadInput'
                         type='file'
                         autoComplete='off'
-                        onChange={ event => onLoadImage(event) }
+                        onChange={ event => onLoadFile(event) }
                     /> <br />
                 <button type='submit' />
             </form>

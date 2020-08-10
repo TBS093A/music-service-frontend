@@ -65,9 +65,22 @@ body {
         font-size: 16px;
         border: 0px;
         margin-left: 5px;
+        margin-top: 10px;
     }
     input:focus{
         outline: none;
+    }
+
+    .uploadInput {
+        width: 0px !important;
+        height: 0px !important;
+        padding-top: 70px;
+        padding-left: 400px;
+        margin-left: 0px;
+        color: rgba(172,36,36,1);
+        font-family: Ubuntu;
+        border: dashed 2px rgba(172,36,36,1);
+        overflow: hidden;
     }
 
     pre {
