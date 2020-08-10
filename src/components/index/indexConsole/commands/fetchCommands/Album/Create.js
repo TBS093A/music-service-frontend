@@ -13,26 +13,23 @@ const AlbumCreate = ({
 }) => {
 
     const [message, setMessage] = useState('')
+    const [image, setImage] = useState('')
     
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
-    const imageInput = React.createRef()
 
-    const create = (event) => {
+    const create = async (event) => {
         event.preventDefault()
         let title = titleInput.current.value
         let description = descriptionInput.current.value
-        let image = imageInput.current.value
-        if ( title !== '' && description !== '' && image !== '' ) {
-            createFetch(title, description, image)
-        } if ( description !== '' && image !== '' ) {
+        if ( title !== '' && description !== '' ) {
+            await createFetch(title, description)
+        } if ( description === '') {
             document.getElementById('descriptionAlbumInput').focus()
-        } if ( image !== '' ) {
-            document.getElementById('imageAlbumInput').focus()
         }
     }
 
-    const createFetch = async (title, description, image) => {
+    const createFetch = async (title, description) => {
         let album = {
             user_id: user.id,
             title: title,
@@ -72,6 +69,20 @@ const AlbumCreate = ({
     const randomInt = (min, max) => {
         return min + Math.floor((max - min) * Math.random())
     }
+
+    const toBase64 = ( file ) => new Promise( (resolve, reject) => {
+        let fileReader = new FileReader()
+        fileReader.readAsDataURL( file )
+        fileReader.onload = () => resolve( fileReader.result )
+        fileReader.onerror = error => reject( error )
+    })
+
+    const onLoadImage = async ( event ) => {
+        event.preventDefault()
+        try {
+            setImage( await toBase64( event.target.files[0] ) )
+        } catch {}
+    }
     
     useEffect( 
         () => {
@@ -84,7 +95,6 @@ const AlbumCreate = ({
 
                 titleInput.current.value = ''
                 descriptionInput.current.value = ''
-                imageInput.current.value = ''
 
                 setConsoleHistory( consoleHistory + message + '\n' )
                 setComponentVisible( false )
@@ -95,7 +105,7 @@ const AlbumCreate = ({
 
     return (
         <div>
-            <form onSubmit={ create }>
+            <form onSubmit={ event => create(event) }>
                 title:
                 <input 
                         id='titleAlbumInput'
@@ -111,8 +121,9 @@ const AlbumCreate = ({
                 image:
                 <input 
                         id='imageAlbumInput'
+                        type='file'
                         autoComplete='off'
-                        ref={ imageInput }
+                        onChange={ event => onLoadImage(event) }
                     /> <br />
                 <button type='submit' />
             </form>
