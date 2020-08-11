@@ -104,7 +104,7 @@ const AlbumCreate = ({
         event.preventDefault()
         let data = event.target.files[0]
         setImage( await toBase64( data ) )
-        uploadListener( data )
+        // uploadListener( data )
         setImageInfos(data.name, data.size)
     }
 
@@ -113,7 +113,7 @@ const AlbumCreate = ({
         event.persist()
         let data = event.dataTransfer.files[0]
         setImage( await toBase64( data ) )
-        uploadListener( data )
+        // uploadListener( data )
         setImageInfos(data.name, data.size)
     }
 
