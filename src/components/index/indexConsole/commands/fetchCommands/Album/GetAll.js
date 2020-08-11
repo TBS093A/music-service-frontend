@@ -21,11 +21,10 @@ const AlbumGetAll = ({
                 getAllAlbum()
                     .then( response => {
                         setMessage(
-                            mapAlbumsToString( response )
-                            + 'get list success\n' 
+                            mapAlbumsToString( response['response'] )
+                            + response['info'] 
                         )
-                    }).catch( () => {
-                        setMessage( 'get list failed\n' )
+                        console.log( response )
                     })
                 setOne( !oneRequest )
             } else {
@@ -59,7 +58,6 @@ const AlbumGetAll = ({
 
     return (
         <div>
-
         </div>
     )
 }

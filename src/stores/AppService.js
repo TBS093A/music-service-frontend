@@ -34,36 +34,55 @@ const _delete = async (endpoint, token) => {
 // Fetch methods
 
 const responseGD = async (address, method, token) => {
-    const response = await fetch(address, {
-        method: method,
-        credentials: 'same-origin',
-        headers: {
-            "Authorization": token,
-            "X-CSRFToken": csrftoken,
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
-    }).then( response => {
-        return progressStream( response )
-    })
-    return response.json()
+    try {
+        const response = await fetch(address, {
+            method: method,
+            credentials: 'same-origin',
+            headers: {
+                "Authorization": token,
+                "X-CSRFToken": csrftoken,
+                "accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+        return await responseExceptions( await response.json() )
+    } catch ( error ) {
+        return { info: error }
+    }
 }
 
 const responseCRU = async (address, method, body, token) => {
-    const response = await fetch(address, {
-        method: method,
-        credentials: 'same-origin',
-        body: JSON.stringify(body),
-        headers: {
-            "Authorization": token,
-            "X-CSRFToken": csrftoken,
-            "accept": "application/json",
-            "Content-Type": "application/json"
+    try {
+        const response = await fetch(address, {
+            method: method,
+            credentials: 'same-origin',
+            body: JSON.stringify(body),
+            headers: {
+                "Authorization": token,
+                "X-CSRFToken": csrftoken,
+                "accept": "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+        return await responseExceptions( await response.json() )
+    } catch ( error ) {
+        return { info: error }
+    }
+}
+
+const responseExceptions = async ( response ) => {
+    try {
+        //progressStream( response )
+        return { 
+            response: response,
+            info: 'operation success' 
         }
-    }).then( response => {
-        return progressStream( response )
-    })
-    return response.json()
+    } catch {
+        return { 
+            response: response,
+            info: 'operation failed' 
+        }
+    }
 }
 
 // Get CSRF Token
@@ -90,7 +109,7 @@ const csrftoken = getCookie('csrftoken')
 *   only use with fetch API in `then` statement
 *   @param response - is a response from fetch
 */
-const progressStream = (response) => {
+export const progressStream = (response) => {
     const contentLength = response.headers.get('content-length')
     if (!contentLength)
         throw Error('Content-Length response header unavailable')
@@ -105,17 +124,18 @@ const progressStream = (response) => {
                     reader.read()
                         .then(({ done, value }) => {
                             if (done) {
-                                controller.close();
-                                return;
+                                controller.close()
+                                return
                             }
-                            loaded += value.byteLength;
-                            console.log({ loaded, total })
-                            controller.enqueue(value);
-                            read();
-                        }).catch(error => {
-                            console.error(error);
-                            controller.error(error)
+                            loaded += value.byteLength
+                            console.log( loaded / total * 100 )
+                            controller.enqueue(value)
+                            read()
                         })
+                        // .catch(error => {
+                        //     console.error(error)
+                        //     controller.error(error)
+                        // })
                 }
             }
         })

@@ -29,7 +29,9 @@ export const createAlbum = async (album, token) => {
         endpoint,
         album,
         token
-    )
+    ).then( response => {
+        return response
+    })
 }
 
 export const updateAlbum = async (id, album, token) => {
@@ -37,14 +39,18 @@ export const updateAlbum = async (id, album, token) => {
         endpoint + id + '/',
         album,
         token
-    )
+    ).then( response => {
+        return response
+    })
 }
 
 export const deleteAlbum = async (id, token) => {
     return await AppService._delete(
         endpoint + id + '/',
         token
-    )
+    ).then( response => {
+        return response
+    })
 }
 
 // Album Ratings CRUD
@@ -54,6 +60,7 @@ export const getAllAlbumRating = (id) => async ( dispatch ) => {
         endpoint + id + '/ratings/'
     ).then( response => {
         dispatch( actions.getRatings( response ) )
+        return response
     })
 }
 
@@ -62,12 +69,16 @@ export const createAlbumRating = (album_id, rating, token) => async ( dispatch )
         endpoint + album_id + '/rating/',
         rating,
         token
-    )
+    ).then( response => {
+        return response
+    })
 }
 
 export const deleteAlbumRating = (album_id, rating_id, token) => async ( dispatch ) => {
     return await AppService._delete(
         endpoint + album_id + '/rating/' + rating_id,
         token
-    )
+    ).then( response => {
+        return response
+    })
 }

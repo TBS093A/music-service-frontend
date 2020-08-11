@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { createAlbum } from '../../../../../../stores/album/duck/operations'
-
+import { progressStream } from '../../../../../../stores/AppService'
 
 const AlbumCreate = ({ 
     user,
@@ -15,8 +15,7 @@ const AlbumCreate = ({
     const [message, setMessage] = useState('')
     const [image, setImage] = useState('')
     const [imageInfo, setImageInfo] = useState('Drop/Click\nfor upload album image...')
-    const [progress, setProgress] = useState('')
-    
+
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
 
@@ -42,11 +41,9 @@ const AlbumCreate = ({
         await createAlbum(
             album,
             user.token
-        ).then(
-            setMessage('album create success')
-        ).catch(
-            setMessage('album create failed')
-        )
+        ).then( response => {
+            setMessage( response['info'] )
+        })
     }
 
     const generateUrlCode = () => {
@@ -104,7 +101,6 @@ const AlbumCreate = ({
         event.preventDefault()
         let data = event.target.files[0]
         setImage( await toBase64( data ) )
-        // uploadListener( data )
         setImageInfos(data.name, data.size)
     }
 
@@ -113,20 +109,7 @@ const AlbumCreate = ({
         event.persist()
         let data = event.dataTransfer.files[0]
         setImage( await toBase64( data ) )
-        // uploadListener( data )
         setImageInfos(data.name, data.size)
-    }
-
-    const uploadListener = async ( data ) => {
-        let progress = new Response(data).arrayBuffer()
-        console.log(progress)
-        await uploadProgressBar( progress, data.size )
-    }
-
-    const uploadProgressBar = async ( progress, size ) => {
-        let percent = progress / size
-        setProgress('upload image [____________________]')
-        setProgress( progress + '#' + percent)
     }
 
     const setImageInfos = (name, size) => {
@@ -157,7 +140,7 @@ const AlbumCreate = ({
                         autoComplete='off'
                         ref={ descriptionInput }
                     /> <br />
-                <pre style={ {marginTop: '35px', marginLeft: '40px'} }>
+                <pre style={ {marginTop: '25px', marginLeft: '40px'} }>
                     { imageInfo }
                 </pre>
                 <input  style={ {marginTop: '-55px'} }
@@ -167,7 +150,6 @@ const AlbumCreate = ({
                         autoComplete='off'
                         onChange={ event => onLoadFile(event) }
                     /> <br />
-                { progress }
                 <button type='submit' />
             </form>
         </div>
