@@ -13,45 +13,44 @@ const AlbumGetAll = ({
 }) => {
 
     const [message, setMessage] = useState('')
-    const [oneRequest, setOne ] = useState(false)
+    const [oneRequest, setOne] = useState(false)
 
     useEffect(
         () => {
             if (componentVisible && oneRequest === false) {
-                getAllAlbum()
-                    .then( response => {
-                        setMessage(
-                            mapAlbumsToString( response['response'] )
-                            + response['info'] 
-                        )
-                        console.log( response )
-                    })
-                setOne( !oneRequest )
+                getAllAlbum().then(response => {
+                    setMessage(
+                        mapAlbumsToString(
+                            response['response']
+                        ) + response['info'] + '\n'
+                    )
+                })
+                setOne(!oneRequest)
             } else {
                 activateConsoleInput()
             }
-            if ( message !== '' ) {
+            if (message !== '') {
                 setConsoleHistory(consoleHistory + message)
                 setComponentVisible(false)
-                setOne( !oneRequest )
+                setOne(!oneRequest)
                 setMessage('')
-            } 
+            }
         }
     )
 
     const mapAlbumsToString = (albums) => {
         let list = '.albums\n'
         for (let i = 0; i < albums.length; i++) {
-            if ( i !== albums.length - 1 )
+            if (i !== albums.length - 1)
                 list += '├── ' + albums[i].title + '\n'
-                      + '│       ├── id: ' + albums[i].id + '\n'
-                      + '│       ├── user id: ' + albums[i].user_id + '\n'
-                      + '│       └── url: ' + albums[i].url_code + '\n'
+                    + '│       ├── id: ' + albums[i].id + '\n'
+                    + '│       ├── user id: ' + albums[i].user_id + '\n'
+                    + '│       └── url: ' + albums[i].url_code + '\n'
             else
                 list += '└── ' + albums[i].title + '\n'
-                      + '          ├── id: ' + albums[i].id + '\n'
-                      + '          ├── user id: ' + albums[i].user_id + '\n'
-                      + '          └── url: ' + albums[i].url_code + '\n'
+                    + '          ├── id: ' + albums[i].id + '\n'
+                    + '          ├── user id: ' + albums[i].user_id + '\n'
+                    + '          └── url: ' + albums[i].url_code + '\n'
         }
         return list
     }

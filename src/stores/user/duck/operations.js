@@ -20,21 +20,17 @@ export const postAuth = (username, password) => async (dispatch) => {
         body,
         AppService.defaultToken
     ).then( response => {
-        try {
-            serviceUser = {
-                id: response.user.id,
-                username: response.user.username,
-                email: response.user.email,
-                ip: response.user.ip,
-                city: response.user.city,
-                country: response.user.country,
-                token: response.Authorization
-            }
-            dispatch(actions.login(serviceUser))
-            return { error: 'login success' }
-        } catch {
-            return { error: 'login failed' }
+        serviceUser = {
+            id: response['response'].user.id,
+            username: response['response'].user.username,
+            email: response['response'].user.email,
+            ip: response['response'].user.ip,
+            city: response['response'].user.city,
+            country: response['response'].user.country,
+            token: response['response'].Authorization
         }
+        dispatch(actions.login(serviceUser))
+        return response
     }) 
 }
 
@@ -43,12 +39,8 @@ export const deleteAuth = (token) => async (dispatch) => {
         endpoint + 'auth',
         token
     ).then( () => {
-        try {
-            dispatch(actions.logout())
-            return { error: 'logout success'}
-        } catch {
-            return { error: 'logout failed' }
-        }
+        dispatch(actions.logout())
+        return response
     })
 }
 
@@ -71,15 +63,15 @@ export const updateUser = (user, id, token) => async (dispatch) => {
         token
     ).then( response => {
         serviceUser = {
-            id: response.user.id,
-            username: response.user.username,
-            email: response.user.email,
-            ip: response.user.ip,
-            city: response.user.city,
-            country: response.user.country,
-            token: token
+            id: response['response'].user.id,
+            username: response['response'].user.username,
+            email: response['response'].user.email,
+            ip: response['response'].user.ip,
+            city: response['response'].user.city,
+            country: response['response'].user.country,
+            token: response['response'].Authorization
         }
-        dispatch(actions.login(serviceUser))
+        dispatch(actions.login( serviceUser ))
         return response
     })
 }

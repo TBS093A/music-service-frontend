@@ -50,10 +50,8 @@ const AlbumUpdate = ({
             id,
             album,
             user.token
-        ).then( () => {
-            setMessage('album update success')
-        }).catch( () => {
-            setMessage('album update failed')
+        ).then( response => {
+            setMessage( response['info'] + '\n' )
         })
     }
     
@@ -71,7 +69,7 @@ const AlbumUpdate = ({
                 descriptionInput.current.value = ''
                 imageInput.current.value = ''
 
-                setConsoleHistory( consoleHistory + message + '\n' )
+                setConsoleHistory( consoleHistory + message )
                 setComponentVisible( false )
                 setMessage('')
             }

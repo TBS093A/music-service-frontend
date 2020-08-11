@@ -25,11 +25,7 @@ const AlbumDelete = ({
                 id,
                 user.token
             ).then( response => {
-                if ( response.detail !== 'Not found.' ){
-                    setMessage('album delete success')
-                } else{
-                    setMessage('album delete failed')
-                }
+                setMessage( response['info'] + '\n' )
             })
         }
     }
@@ -45,7 +41,7 @@ const AlbumDelete = ({
 
                 idInput.current.value = ''
 
-                setConsoleHistory( consoleHistory + message + '\n' )
+                setConsoleHistory( consoleHistory + message )
                 setComponentVisible( false )
                 setMessage('')
             }

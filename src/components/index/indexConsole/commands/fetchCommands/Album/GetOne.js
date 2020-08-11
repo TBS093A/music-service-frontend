@@ -22,15 +22,18 @@ const AlbumGetOne = ({
         setConsoleHistory( consoleHistory + 'album id: ' + inputValue + '\n')
         if ( inputValue >= 0 ) {
             getOneAlbum( inputValue ).then( response => {
-                if ( response.detail !== 'Not found.' ){
+                if ( response['info'] !== 'Not found.' ){
                     setMessage(
-                        response.title + '\n'
-                            + '├── id: ' + response.id + '\n' 
-                            + '├── user id: ' + response.user_id + '\n'
-                            + '└── url: ' + response.url_code + '\n'
+                        response['response'].title + '\n'
+                            + '├── id: ' + response['response'].id + '\n' 
+                            + '├── user id: ' + response['response'].user_id + '\n'
+                            + '└── url: ' + response['response'].url_code + '\n'
+                            + response['info'] + '\n'
                     )
                 } else{
-                    setMessage('album not found')
+                    setMessage( 
+                        response['info'] + '\n'
+                    )
                 }
             })
         }

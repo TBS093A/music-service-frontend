@@ -42,7 +42,7 @@ const AlbumCreate = ({
             album,
             user.token
         ).then( response => {
-            setMessage( response['info'] )
+            setMessage( response['info'] + '\n' )
         })
     }
 
@@ -81,7 +81,7 @@ const AlbumCreate = ({
                 titleInput.current.value = ''
                 descriptionInput.current.value = ''
 
-                setConsoleHistory( consoleHistory + message + '\n' )
+                setConsoleHistory( consoleHistory + message )
                 setComponentVisible( false )
                 setImage('')
                 setImageInfo('Drop/Click\nfor upload album image...')

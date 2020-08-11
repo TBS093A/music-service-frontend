@@ -1,38 +1,77 @@
 import { address } from './APIAddress'
 
-// session Token
+// User Session Token
 
 let defaultToken = 'empty token'
 
+
 // CRUD methods
 
+/**
+ * get list method
+ * @param {string} endpoint - for example `user/`
+ */
 const _getList = async (endpoint) => {
     return await responseGD(address + endpoint, 'GET', defaultToken)
 }
 
+/**
+ * get one row / record
+ * @param {string} endpoint - for example `user/`
+ */
 const _getOne = async (endpoint) => {
     return await responseGD(address + endpoint, 'GET', defaultToken)
 }
 
+/**
+ * universal post method
+ * @param {string} endpoint - for example `user/`
+ * @param {{}} body - body request
+ * @param {string} token - token for verify user in API
+ */
 const _post = async (endpoint, body, token) => {
     return await responseCRU(address + endpoint, 'POST', body, token)
 }
 
+/**
+ * universal put method
+ * @param {string} endpoint - for example `user/{id}/` where {id} is object id
+ * @param {{}} body - body request
+ * @param {string} token - token for verify user in API
+ */
 const _put = async (endpoint, body, token) => {
     return await responseCRU(address + endpoint, 'PUT', body, token)
 }
 
+/**
+ * universal patch method
+ * @param {string} endpoint - for example `user/{id}/` where {id} is object id
+ * @param {{}} body - body request
+ * @param {string} token - token for verify user in API
+ */
 const _patch = async (endpoint, body, token) => {
     return await responseCRU(address + endpoint, 'PATCH', body, token)
 }
 
+/**
+ * universal delete method
+ * @param {string} endpoint - for example `user/{id}/` where {id} is object id
+ * @param {string} token - token for verify user in API
+ */
 const _delete = async (endpoint, token) => {
     return await responseGD(address + endpoint, 'DELETE', token)
 }
 
+
 // Utils
 // Fetch methods
 
+/**
+ * fetch `get` / `delete` type methods
+ * @param {string} address - full endpoint address
+ * @param {string} method - method like `get` / `delete`
+ * @param {string} token - token for verify user in API
+ */
 const responseGD = async (address, method, token) => {
     try {
         const response = await fetch(address, {
@@ -45,12 +84,22 @@ const responseGD = async (address, method, token) => {
                 "Content-Type": "application/json"
             }
         })
-        return await responseExceptions( await response.json() )
-    } catch ( error ) {
+        return await responseExceptions(
+            await response.json(),
+            response.status
+        )
+    } catch (error) {
         return { info: error }
     }
 }
 
+/**
+ * fetch `post` / `put` / `patch` type methods
+ * @param {string} address - full endpoint address
+ * @param {string} method - method like `post` / `put` / `patch` 
+ * @param {{}} body - body of request
+ * @param {string} token - token for verify user session in API
+ */
 const responseCRU = async (address, method, body, token) => {
     try {
         const response = await fetch(address, {
@@ -64,29 +113,55 @@ const responseCRU = async (address, method, body, token) => {
                 "Content-Type": "application/json"
             }
         })
-        return await responseExceptions( await response.json() )
-    } catch ( error ) {
+        return await responseExceptions(
+            await response.json(),
+            response.status
+        )
+    } catch (error) {
         return { info: error }
     }
 }
 
-const responseExceptions = async ( response ) => {
+/**
+ * fetch bonus exceptions ( not blank fields in request / bad requests )
+ * @param {Response} response 
+ * @param {number} status 
+ */
+const responseExceptions = async (response, status) => {
     try {
         //progressStream( response )
-        return { 
-            response: response,
-            info: 'operation success' 
+        if (status > 300) {
+            let info = ''
+            Object.keys(response).forEach(element => {
+                if (element !== 'detail')
+                    info += element + ' - ' + response[element][0]
+                else
+                    info += response[element]
+            })
+            return {
+                response: response,
+                info: info
+            }
         }
-    } catch {
-        return { 
+        else
+            return {
+                response: response,
+                info: 'operation success'
+            }
+    } catch (error) {
+        return {
             response: response,
-            info: 'operation failed' 
+            info: error
         }
     }
 }
 
 // Get CSRF Token
 
+/**
+ * get cookie method for CSRF verification
+ * @param {string} name - name of handled cookie
+ */
 const getCookie = (name) => {
     if (!document.cookie) {
         return null;
@@ -106,7 +181,7 @@ const csrftoken = getCookie('csrftoken')
 // Get progress stream
 
 /**
-*   only use with fetch API in `then` statement
+*   Fetch streaming (use in `then` statement) usefull for get request progress info
 *   @param response - is a response from fetch
 */
 export const progressStream = (response) => {
@@ -128,14 +203,14 @@ export const progressStream = (response) => {
                                 return
                             }
                             loaded += value.byteLength
-                            console.log( loaded / total * 100 )
+                            console.log(loaded / total * 100)
                             controller.enqueue(value)
                             read()
                         })
-                        // .catch(error => {
-                        //     console.error(error)
-                        //     controller.error(error)
-                        // })
+                        .catch(error => {
+                            console.error(error)
+                            controller.error(error)
+                        })
                 }
             }
         })
