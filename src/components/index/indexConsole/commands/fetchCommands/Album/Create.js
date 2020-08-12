@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createAlbum } from '../../../../../../stores/album/duck/operations'
 import { generateUrlCode } from '../../../../../generateUrlCode'
 import FormGenerator from '../Abstract Utils/FormGenerator'
+import { ResetComponent } from '../Abstract Utils/ResetComponent'
 
 
 const AlbumCreate = ({ 
@@ -73,32 +74,65 @@ const AlbumCreate = ({
         })
     }
     
-    useEffect( 
-        () => {
-            if ( componentVisible ) {
-                document.getElementById('titleAlbumInput').focus()
-            } else {
-                activateConsoleInput()         
-            }
-            if ( message !== '' ) {
+    // useEffect( 
+    //     () => {
+    //         if ( componentVisible ) {
+    //             document.getElementById('titleAlbumInput').focus()
+    //         } else {
+    //             activateConsoleInput()         
+    //         }
+    //         if ( message !== '' ) {
 
-                titleInput.current.value = ''
-                descriptionInput.current.value = ''
+    //             titleInput.current.value = ''
+    //             descriptionInput.current.value = ''
 
-                setConsoleHistory( consoleHistory + message )
-                setComponentVisible( false )
-                setImage('')
-                setImageInfo('Drop/Click\nfor upload album image...')
-                setMessage('')
-            }
-        }
-    )
+    //             setConsoleHistory( consoleHistory + message )
+    //             setComponentVisible( false )
+    //             setImage('')
+    //             setImageInfo('Drop/Click\nfor upload album image...')
+    //             setMessage('')
+    //         }
+    //     }
+    // )
+
+    const resetState = () => {
+        setConsoleHistory( consoleHistory + message )
+        setComponentVisible( false )
+        setImage('')
+        setImageInfo('Drop/Click\nfor upload album image...')
+        setMessage('')
+    }
+
+    let refList = [
+        titleInput,
+        descriptionInput
+    ]
+
+    // useEffect( () => {
+        
+    //     ResetComponent(
+    //         resetState, refList,
+    //         message,
+    //         componentVisible, 'titleAlbumInput',
+    //         activateConsoleInput
+    //     )}
+    // )
 
     return (
-        <FormGenerator 
-            inputList={ inputList }
-            action={ create }
-        />
+        <div>
+            <FormGenerator 
+                inputList={ inputList }
+                action={ create }
+            />
+            <ResetComponent 
+                resetState={ resetState }
+                refList={ refList }
+                message={ message }
+                componentVisible={ componentVisible }
+                firstComponentInput={ 'titleAlbumInput' }
+                activateConsoleInput={ activateConsoleInput }
+            />
+        </div>
     )
 }
 

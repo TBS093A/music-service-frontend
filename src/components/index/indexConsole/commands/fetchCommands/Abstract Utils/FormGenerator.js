@@ -12,18 +12,20 @@ const FormGenerator = ({
     return (
         <form onSubmit={ event => action( event ) }>
             {   
-                inputList.map( input => {
+                inputList.map( (input, key) => {
 
                     if ( input.type === 'text' ) {
                         return ( 
                             <TextInputGenerator 
-                                input={ input } 
+                                input={ input }
+                                key={ key } 
                             /> 
                         )
                     } else if ( input.type === 'file' ) {
                         return (
                             <UploadInputGenerator 
                                 input={ input }
+                                key={ key } 
                             />
                         )
                     }

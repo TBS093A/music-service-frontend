@@ -25,7 +25,7 @@ const AlbumGetAll = ({
                         ) + response['info'] + '\n'
                     )
                 })
-                setOne(!oneRequest)
+                setOne( true )
             } else {
                 activateConsoleInput()
             }
