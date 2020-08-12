@@ -124,8 +124,8 @@ const responseCRU = async (address, method, body, token) => {
 
 /**
  * fetch bonus exceptions ( not blank fields in request / bad requests )
- * @param {Response} response 
- * @param {number} status 
+ * @param {Response} response - response from fetch
+ * @param {number} status - request status
  */
 const responseExceptions = async (response, status) => {
     try {

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { createAlbum } from '../../../../../../stores/album/duck/operations'
-import { progressStream } from '../../../../../../stores/AppService'
+import FormGenerator from '../Abstract Utils/FormGenerator'
+
 
 const AlbumCreate = ({ 
     user,
@@ -18,6 +19,28 @@ const AlbumCreate = ({
 
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
+
+    let inputList = [
+        {
+            type: 'text',
+            name: 'titleAlbum',
+            ref: titleInput
+        },
+        {
+            type: 'text',
+            name: 'descriptionAlbum',
+            ref: descriptionInput
+        },
+        {
+            type: 'file',
+            name: 'imageAlbum',
+            fileType: 'image',
+            dropInfo: imageInfo,
+            setDropInfo: setImageInfo,
+            file: image,
+            setFile: setImage
+        }
+    ]
 
     const create = async (event) => {
         event.preventDefault()
@@ -90,70 +113,77 @@ const AlbumCreate = ({
         }
     )
 
-    const toBase64 = ( file ) => new Promise( (resolve, reject) => {
-        let fileReader = new FileReader()
-        fileReader.readAsDataURL( file )
-        fileReader.onload = () => resolve( fileReader.result )
-        fileReader.onerror = error => reject( error )
-    })
-
-    const onLoadFile = async ( event ) => {
-        event.preventDefault()
-        let data = event.target.files[0]
-        setImage( await toBase64( data ) )
-        setImageInfos(data.name, data.size)
-    }
-
-    const onLoadFileDrop = async ( event ) => {
-        event.preventDefault()
-        event.persist()
-        let data = event.dataTransfer.files[0]
-        setImage( await toBase64( data ) )
-        setImageInfos(data.name, data.size)
-    }
-
-    const setImageInfos = (name, size) => {
-        setImageInfo( 
-            'name: "' 
-            + name 
-            + '"\nsize: ' 
-            + (Math.round(size / 100 + 'e-2') / 100 ) 
-            + ' MB' 
-        )
-    }
-
     return (
-        <div
-            onDrop={ event => onLoadFileDrop(event) }
-            >
-            <form 
-                onSubmit={ event => create(event) }>
-                title:
-                <input 
-                        id='titleAlbumInput'
-                        autoComplete='off'
-                        ref={ titleInput }
-                    /> <br />
-                description:
-                <input 
-                        id='descriptionAlbumInput'
-                        autoComplete='off'
-                        ref={ descriptionInput }
-                    /> <br />
-                <pre style={ {marginTop: '25px', marginLeft: '40px'} }>
-                    { imageInfo }
-                </pre>
-                <input  style={ {marginTop: '-55px'} }
-                        id='imageAlbumInput'
-                        className='uploadInput'
-                        type='file'
-                        autoComplete='off'
-                        onChange={ event => onLoadFile(event) }
-                    /> <br />
-                <button type='submit' />
-            </form>
-        </div>
+        <FormGenerator 
+            inputList={ inputList }
+            action={ create }
+        />
     )
+
+    // const toBase64 = ( file ) => new Promise( (resolve, reject) => {
+    //     let fileReader = new FileReader()
+    //     fileReader.readAsDataURL( file )
+    //     fileReader.onload = () => resolve( fileReader.result )
+    //     fileReader.onerror = error => reject( error )
+    // })
+
+    // const onLoadFile = async ( event ) => {
+    //     event.preventDefault()
+    //     let data = event.target.files[0]
+    //     setImage( await toBase64( data ) )
+    //     setImageInfos(data.name, data.size)
+    // }
+
+    // const onLoadFileDrop = async ( event ) => {
+    //     event.preventDefault()
+    //     event.persist()
+    //     let data = event.dataTransfer.files[0]
+    //     setImage( await toBase64( data ) )
+    //     setImageInfos(data.name, data.size)
+    // }
+
+    // const setImageInfos = (name, size) => {
+    //     setImageInfo( 
+    //         'name: "' 
+    //         + name 
+    //         + '"\nsize: ' 
+    //         + (Math.round(size / 100 + 'e-2') / 100 ) 
+    //         + ' MB' 
+    //     )
+    // }
+
+    // return (
+    //     <div
+    //         onDrop={ event => onLoadFileDrop(event) }
+    //         >
+    //         <form 
+    //             onSubmit={ event => create(event) }>
+    //             title:
+    //             <input 
+    //                     id='titleAlbumInput'
+    //                     autoComplete='off'
+    //                     ref={ titleInput }
+    //                 /> <br />
+    //             description:
+    //             <input 
+    //                     id='descriptionAlbumInput'
+    //                     autoComplete='off'
+    //                     ref={ descriptionInput }
+    //                 /> <br />
+    //             <pre style={ {marginTop: '25px', marginLeft: '40px'} }>
+    //                 { imageInfo }
+    //             </pre>
+    //             <input  style={ {marginTop: '-55px'} }
+    //                     id='imageAlbumInput'
+    //                     className='uploadInput'
+    //                     type='file'
+    //                     autoComplete='off'
+    //                     onChange={ event => onLoadFile(event) }
+    //                 /> <br />
+    //             <button type='submit' />
+    //         </form>
+    //     </div>
+    // )
 }
 
 const mapStateToProps = state => ({
