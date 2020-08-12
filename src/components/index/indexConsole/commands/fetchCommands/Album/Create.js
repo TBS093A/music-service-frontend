@@ -22,6 +22,11 @@ const AlbumCreate = ({
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
 
+    let refList = [
+        titleInput,
+        descriptionInput
+    ]
+
     let inputList = [
         {
             type: 'text',
@@ -46,6 +51,14 @@ const AlbumCreate = ({
             setFile: setImage
         }
     ]
+
+    const resetState = () => {
+        setConsoleHistory( consoleHistory + message )
+        setComponentVisible( false )
+        setImage('')
+        setImageInfo('Drop/Click\nfor upload album image...')
+        setMessage('')
+    }
 
     const create = async (event) => {
         event.preventDefault()
@@ -73,50 +86,6 @@ const AlbumCreate = ({
             setMessage( response['info'] + '\n' )
         })
     }
-    
-    // useEffect( 
-    //     () => {
-    //         if ( componentVisible ) {
-    //             document.getElementById('titleAlbumInput').focus()
-    //         } else {
-    //             activateConsoleInput()         
-    //         }
-    //         if ( message !== '' ) {
-
-    //             titleInput.current.value = ''
-    //             descriptionInput.current.value = ''
-
-    //             setConsoleHistory( consoleHistory + message )
-    //             setComponentVisible( false )
-    //             setImage('')
-    //             setImageInfo('Drop/Click\nfor upload album image...')
-    //             setMessage('')
-    //         }
-    //     }
-    // )
-
-    const resetState = () => {
-        setConsoleHistory( consoleHistory + message )
-        setComponentVisible( false )
-        setImage('')
-        setImageInfo('Drop/Click\nfor upload album image...')
-        setMessage('')
-    }
-
-    let refList = [
-        titleInput,
-        descriptionInput
-    ]
-
-    // useEffect( () => {
-        
-    //     ResetComponent(
-    //         resetState, refList,
-    //         message,
-    //         componentVisible, 'titleAlbumInput',
-    //         activateConsoleInput
-    //     )}
-    // )
 
     return (
         <div>
