@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { createAlbum } from '../../../../../../stores/album/duck/operations'
+import { generateUrlCode } from '../../../../../generateUrlCode'
 import FormGenerator from '../Abstract Utils/FormGenerator'
 
 
@@ -23,17 +24,20 @@ const AlbumCreate = ({
     let inputList = [
         {
             type: 'text',
-            name: 'titleAlbum',
+            name: 'title',
+            endpoint: 'Album',
             ref: titleInput
         },
         {
             type: 'text',
-            name: 'descriptionAlbum',
+            name: 'description',
+            endpoint: 'Album',
             ref: descriptionInput
         },
         {
             type: 'file',
-            name: 'imageAlbum',
+            name: 'image',
+            endpoint: 'Album',
             fileType: 'image',
             dropInfo: imageInfo,
             setDropInfo: setImageInfo,
@@ -59,7 +63,7 @@ const AlbumCreate = ({
             title: title,
             description: description,
             image: image,
-            url_code: generateUrlCode(),
+            url_code: generateUrlCode( 'album' ),
         }
         await createAlbum(
             album,
@@ -67,29 +71,6 @@ const AlbumCreate = ({
         ).then( response => {
             setMessage( response['info'] + '\n' )
         })
-    }
-
-    const generateUrlCode = () => {
-        let code = 'op?album='
-        let hash = [
-            '!', '@', '#', '$', '%', '^', '&', '*',
-            'Q', 'W', 'X', 'S', 'q', 'w', 'x', 's'
-        ]
-        code +=  
-             + hash[ randomInt(7, 14) ] 
-             + hash[ randomInt(7, 14) ] 
-             + hash[ randomInt(7, 14) ] 
-             + hash[ randomInt(0, 7) ] 
-             + hash[ randomInt(0, 7) ]
-             + hash[ randomInt(0, 7) ]
-             + randomInt(0, 9)
-             + randomInt(0, 9) 
-             + randomInt(0, 9)
-        return code
-    }
-
-    const randomInt = (min, max) => {
-        return min + Math.floor((max - min) * Math.random())
     }
     
     useEffect( 

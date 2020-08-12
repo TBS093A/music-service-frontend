@@ -40,6 +40,7 @@ const FormGenerator = ({
  * {    
  *  type: 'text',   
  *  name: 'name',   
+ *  endpoint: 'Album',    
  *  ref: React.createRef()  
  * }    } input - basic text input 
  */
@@ -50,7 +51,7 @@ const TextInputGenerator = ({
         <div>
             { input.name + ':' }
             <input 
-                id={ input.name + 'Input' }
+                id={ input.name + input.endpoint + 'Input' }
                 autoComplete='off'
                 ref={ input.ref }
             />
@@ -64,7 +65,8 @@ const TextInputGenerator = ({
  * {    
  *  type: 'file',   
  *  name: 'name',   
- *  fileType: 'image',       
+ *  endpoint: 'Album',     
+ *  fileType: 'image' or 'audio',       
  *  dropInfo: dropInfo, setDropInfo: setDropInfo(), #useState  
  *  file: file, setFile: setFile()  #useState
  * }    } input -  
@@ -112,9 +114,10 @@ const UploadInputGenerator = ({
             </pre>
             <input 
                 style={ { marginTop: '-55px' } }
-                id={ input.name + 'Input' }
+                id={ input.name + input.endpoint + 'Input' }
                 className='uploadInput'
                 type='file'
+                accept={ input.fileType + '/*' }
                 autoComplete='off'
                 onChange={ event => onLoadFile( event ) }
             />
