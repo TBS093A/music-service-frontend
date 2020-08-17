@@ -26,7 +26,7 @@ const AlbumGetOne = ({
     let inputList = [
         {
             type: 'text',
-            name: 'id',
+            name: 'idGetOne',
             endpoint: 'Album',
             ref: getOneInput
         }
@@ -42,7 +42,7 @@ const AlbumGetOne = ({
         return mapRowToString( album, mapFields )
     }
 
-    const getOneAlbumFetch = (event) => {
+    const getOneAlbumFetch = () => {
         AbstractGetOne(
             refList,
             consoleHistory,
@@ -76,16 +76,6 @@ const AlbumGetOne = ({
         </div>
     )
 }
-
-{/* <form onSubmit={ getOne }>
-                album id:
-                <input 
-                        id='getOneAlbumInput'
-                        autoComplete='off'
-                        ref={ getOneInput }
-                    />
-                <button type='submit' />
-            </form> */}
 
 const mapStateToProps = state => ({
     album: state.album

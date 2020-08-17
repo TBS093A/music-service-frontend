@@ -84,10 +84,16 @@ const responseGD = async (address, method, token) => {
                 "Content-Type": "application/json"
             }
         })
-        return await responseExceptions(
-            await response.json(),
-            response.status
-        )
+        if ( method === 'GET' )
+            return await responseExceptions(
+                await response.json(),
+                response.status
+            )
+        else
+            return await responseExceptions(
+                await response,
+                response.status
+            )
     } catch (error) {
         return { info: error }
     }

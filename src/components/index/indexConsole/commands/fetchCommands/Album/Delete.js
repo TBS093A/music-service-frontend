@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { deleteAlbum } from '../../../../../../stores/album/duck/operations'
-
+import { AbstractDelete } from '../Abstract Utils/AbstractDelete'
+import { FormGenerator } from '../Abstract Utils/FormGenerator'
+import { ResetComponent } from '../Abstract Utils/ResetComponent'
 
 const AlbumDelete = ({ 
     user, 
@@ -16,49 +18,50 @@ const AlbumDelete = ({
     
     const idInput = React.createRef()
 
-    const deleteFetch = (event) => {
-        event.preventDefault()
-        let id = idInput.current.value
-        setConsoleHistory( consoleHistory + 'album id: ' + id + '\n')
-        if ( id >= 0 ) {
-            deleteAlbum( 
-                id,
-                user.token
-            ).then( response => {
-                setMessage( response['info'] + '\n' )
-            })
+    let refList = [
+        idInput
+    ]
+
+    let inputList = [
+        {
+            type: 'text',
+            name: 'idDelete',
+            endpoint: 'Album',
+            ref: idInput
         }
+    ]
+
+    const deleteFetch = (event) => {
+        AbstractDelete(
+            refList,
+            consoleHistory,
+            setConsoleHistory,
+            setMessage,
+            deleteAlbum,
+            user.token
+        )
     }
 
-    useEffect( 
-        () => {
-            if ( componentVisible ) {
-                document.getElementById('idAlbumDeleteInput').focus()
-            } else {
-                activateConsoleInput()         
-            }
-            if ( message !== '' ) {
-
-                idInput.current.value = ''
-
-                setConsoleHistory( consoleHistory + message )
-                setComponentVisible( false )
-                setMessage('')
-            }
-        }
-    )
+    const resetState = () => {
+        setConsoleHistory( consoleHistory + message )
+        setComponentVisible( false )
+        setMessage('')
+    }
 
     return (
         <div>
-            <form onSubmit={ deleteFetch }>
-                album id:
-                <input 
-                        id='idAlbumDeleteInput'
-                        autoComplete='off'
-                        ref={ idInput }
-                    />
-                <button type='submit' />
-            </form>
+            <FormGenerator 
+                inputList={ inputList }
+                refList={ refList }
+                action={ deleteFetch }
+            />
+            <ResetComponent
+                resetState={ resetState }
+                refList={ refList }
+                message={ message }
+                componentVisible={ componentVisible }
+                activateConsoleInput={ activateConsoleInput }
+            />
         </div>
     )
 }

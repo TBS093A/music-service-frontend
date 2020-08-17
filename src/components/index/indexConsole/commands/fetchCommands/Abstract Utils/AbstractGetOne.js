@@ -15,7 +15,7 @@ export const AbstractGetOne = async (
     mapping, 
 ) => {
     let inputValue = refList[0].current.value
-    setConsoleHistory( consoleHistory + 'album id: ' + inputValue + '\n')
+    setConsoleHistory( consoleHistory + 'id: ' + inputValue + '\n')
     if ( inputValue >= 0 ) {
         await getOneAction( inputValue ).then( response => {
             if ( response['info'] !== 'Not found.' ){
