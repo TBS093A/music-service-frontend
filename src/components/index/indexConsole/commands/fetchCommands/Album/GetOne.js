@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { getOneAlbum } from '../../../../../../stores/album/duck/operations'
-
+import { ResetComponent } from '../Abstract Utils/ResetComponent'
+import { FormGenerator } from '../Abstract Utils/FormGenerator'
+import { mapRowToString } from '../Abstract Utils/MapRowsToString'
+import { AbstractGetOne } from '../Abstract Utils/AbstractGetOne'
 
 const AlbumGetOne = ({ 
     album, 
@@ -16,50 +19,65 @@ const AlbumGetOne = ({
     
     const getOneInput = React.createRef()
 
-    const getOne = (event) => {
-        event.preventDefault()
-        let inputValue = getOneInput.current.value
-        setConsoleHistory( consoleHistory + 'album id: ' + inputValue + '\n')
-        if ( inputValue >= 0 ) {
-            getOneAlbum( inputValue ).then( response => {
-                if ( response['info'] !== 'Not found.' ){
-                    setMessage(
-                        response['response'].title + '\n'
-                            + '├── id: ' + response['response'].id + '\n' 
-                            + '├── user id: ' + response['response'].user_id + '\n'
-                            + '└── url: ' + response['response'].url_code + '\n'
-                            + response['info'] + '\n'
-                    )
-                } else{
-                    setMessage( 
-                        response['info'] + '\n'
-                    )
-                }
-            })
+    let refList = [
+        getOneInput
+    ]
+
+    let inputList = [
+        {
+            type: 'text',
+            name: 'id',
+            endpoint: 'Album',
+            ref: getOneInput
         }
+    ]
+
+    const mapAlbumToString = ( album ) => {
+        let mapFields = [
+            'title',
+            'id',
+            'user_id',
+            'url_code'
+        ]
+        return mapRowToString( album, mapFields )
     }
 
-    useEffect( 
-        () => {
-            if ( componentVisible ) {
-                document.getElementById('getOneAlbumInput').focus()
-            } else {
-                activateConsoleInput()         
-            }
-            if ( message !== '' ) {
+    const getOneAlbumFetch = (event) => {
+        AbstractGetOne(
+            refList,
+            consoleHistory,
+            setConsoleHistory, 
+            setMessage, 
+            getOneAlbum, 
+            mapAlbumToString
+        )
+    }
 
-                getOneInput.current.value = ''
-
-                setConsoleHistory( consoleHistory + message )
-                setComponentVisible( false )
-                setMessage('')
-            }
-        }
-    )
+    const resetState = () => {
+        setConsoleHistory( consoleHistory + message )
+        setComponentVisible( false )
+        setMessage('')
+    }
 
     return (
         <div>
-            <form onSubmit={ getOne }>
+            <FormGenerator 
+                inputList={ inputList }
+                refList={ refList }
+                action={ getOneAlbumFetch }
+            />
+            <ResetComponent
+                resetState={ resetState }
+                refList={ refList }
+                message={ message }
+                componentVisible={ componentVisible }
+                activateConsoleInput={ activateConsoleInput }
+            />
+        </div>
+    )
+}
+
+{/* <form onSubmit={ getOne }>
                 album id:
                 <input 
                         id='getOneAlbumInput'
@@ -67,10 +85,7 @@ const AlbumGetOne = ({
                         ref={ getOneInput }
                     />
                 <button type='submit' />
-            </form>
-        </div>
-    )
-}
+            </form> */}
 
 const mapStateToProps = state => ({
     album: state.album

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { getAllAlbum } from '../../../../../../stores/album/duck/operations'
 import { ResetComponentWithoutInputs } from '../Abstract Utils/ResetComponent'
-import { mapRowsToString } from '../Abstract Utils/MapRowsToString'
+import { mapAllRowsToString } from '../Abstract Utils/MapRowsToString'
 
 const AlbumGetAll = ({
     album,
@@ -28,7 +28,7 @@ const AlbumGetAll = ({
             'user_id',
             'url_code'
         ]
-        return mapRowsToString( albums, 'albums', mapFields )
+        return mapAllRowsToString( albums, 'albums', mapFields )
     }
 
     return (

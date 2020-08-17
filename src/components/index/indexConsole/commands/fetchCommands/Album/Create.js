@@ -88,7 +88,6 @@ const AlbumCreate = ({
                 refList={ refList }
                 message={ message }
                 componentVisible={ componentVisible }
-                firstComponentInput={ 'titleAlbumInput' }
                 activateConsoleInput={ activateConsoleInput }
             />
         </div>

@@ -6,7 +6,7 @@ import React from 'react'
  * @param { [] } refList - react ref objects list for handler validation
  * @param { } action - fetch method
  */
-const FormGenerator = ({
+export const FormGenerator = ({
     inputList, refList,
     action
 }) => {

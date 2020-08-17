@@ -6,19 +6,18 @@ import React, { useState, useEffect } from "react"
  * @param { [] } refList - reset react refs
  * @param { useState } message - for check message trigger
  * @param { useState } componentVisible - for focus first comp. input
- * @param { string } firstComponentInput - ---""---
  * @param { action } activateConsoleInput - activate general console input
  */
 export const ResetComponent = ({
     resetState, refList,
     message, 
-    componentVisible, firstComponentInput,
+    componentVisible,
     activateConsoleInput
 }) => {
 
     useEffect( () => {
         if ( componentVisible === true ) {
-            document.getElementById( firstComponentInput ).focus()    
+            refList[0].current.focus()    
             if ( message !== '' ) {
                 refList.forEach( resetRefs )
                 resetState()

@@ -1,5 +1,5 @@
 
-export const mapRowsToString = (objects, type, fields) => {
+export const mapAllRowsToString = (objects, type, fields) => {
     let list = '.' + type + '\n'
     for (let i = 0; i < objects.length; i++) {
         if (i !== objects.length - 1) {
@@ -25,4 +25,18 @@ export const mapRowsToString = (objects, type, fields) => {
         }
     }
     return list
+}
+
+export const mapRowToString = ( object, fields ) => {
+    let row = ''
+    for (let i = 0; i < fields.length; i++) {
+        if ( i === 0 ) {
+            row += object[ fields[i] ] + '\n'
+        } else if ( i !== fields.length - 1 ) {
+            row += '├── ' + fields[i] + ': ' + object[ fields[i] ] + '\n'
+        } else {
+            row += '└── ' + fields[i] + ': ' + object[ fields[i] ] + '\n'
+        }
+    }
+    return row
 }
