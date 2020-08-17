@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 import { getAllAlbum } from '../../../../../../stores/album/duck/operations'
-
+import { ResetComponentWithoutInputs } from '../Abstract Utils/ResetComponent'
+import { mapRowsToString } from '../Abstract Utils/MapRowsToString'
 
 const AlbumGetAll = ({
     album,
@@ -13,50 +14,34 @@ const AlbumGetAll = ({
 }) => {
 
     const [message, setMessage] = useState('')
-    const [oneRequest, setOne] = useState(false)
 
-    useEffect(
-        () => {
-            if (componentVisible && oneRequest === false) {
-                getAllAlbum().then(response => {
-                    setMessage(
-                        mapAlbumsToString(
-                            response['response']
-                        ) + response['info'] + '\n'
-                    )
-                })
-                setOne( true )
-            } else {
-                activateConsoleInput()
-            }
-            if (message !== '') {
-                setConsoleHistory(consoleHistory + message)
-                setComponentVisible(false)
-                setOne(!oneRequest)
-                setMessage('')
-            }
-        }
-    )
+    const resetState = () => {
+        setConsoleHistory(consoleHistory + message)
+        setComponentVisible(false)
+        setMessage('')
+    }
 
     const mapAlbumsToString = (albums) => {
-        let list = '.albums\n'
-        for (let i = 0; i < albums.length; i++) {
-            if (i !== albums.length - 1)
-                list += '├── ' + albums[i].title + '\n'
-                    + '│       ├── id: ' + albums[i].id + '\n'
-                    + '│       ├── user id: ' + albums[i].user_id + '\n'
-                    + '│       └── url: ' + albums[i].url_code + '\n'
-            else
-                list += '└── ' + albums[i].title + '\n'
-                    + '          ├── id: ' + albums[i].id + '\n'
-                    + '          ├── user id: ' + albums[i].user_id + '\n'
-                    + '          └── url: ' + albums[i].url_code + '\n'
-        }
-        return list
+        let mapFields = [
+            'title',
+            'id',
+            'user_id',
+            'url_code'
+        ]
+        return mapRowsToString( albums, 'albums', mapFields )
     }
 
     return (
         <div>
+            <ResetComponentWithoutInputs
+                resetState={ resetState }
+                fetchAction={ getAllAlbum }
+                mapObjectToString={ mapAlbumsToString }
+                message={ message }
+                setMessage={ setMessage }
+                componentVisible={ componentVisible }
+                activateConsoleInput={ activateConsoleInput }
+            />
         </div>
     )
 }

@@ -11,15 +11,13 @@ export const store = createStore(rootReducer, persistedState, applyMiddleware(th
 
 store.subscribe( () => {
     saveState({
-        user: store.getState().user,
-        album: store.getState().album
+        user: store.getState().user
     })
 })
 
 store.subscribe( loadash.throttle( () => {
     saveState({
-        user: store.getState().user,
-        album: store.getState().album
+        user: store.getState().user
     })
 }, 1000))
 

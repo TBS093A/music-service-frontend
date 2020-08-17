@@ -50,10 +50,8 @@ export const ResetComponentWithoutInputs = ({
     activateConsoleInput
 }) => {
 
-    const [oneRequest, setOneRequest] = useState(false)
-    
     useEffect( () => {
-        if (componentVisible && oneRequest === false) {
+        if (componentVisible) {
             fetchAction().then(response => {
                 setMessage(
                     mapObjectToString(
@@ -61,13 +59,10 @@ export const ResetComponentWithoutInputs = ({
                     ) + response['info'] + '\n'
                 )
             })
-            setOneRequest( true )
-        } else {
-            activateConsoleInput()
-        }
-        if (message !== '') {
-            resetState()
-            setOneRequest( false )
+            if (message !== '') {
+                resetState()
+                activateConsoleInput()
+            }
         }
     })
 
