@@ -25,9 +25,13 @@ const AlbumGetOne = ({
 
     let inputList = [
         {
+            type: 'info',
+            action: 'GetOne',
+            endpoint: 'Album'
+        },
+        {
             type: 'text',
-            name: 'idGetOne',
-            endpoint: 'Album',
+            name: 'id',
             ref: getOneInput
         }
     ]

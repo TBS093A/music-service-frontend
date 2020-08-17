@@ -24,9 +24,13 @@ const AlbumDelete = ({
 
     let inputList = [
         {
+            type: 'info',
+            action: 'Delete',
+            endpoint: 'Album'
+        },
+        {
             type: 'text',
-            name: 'idDelete',
-            endpoint: 'Album',
+            name: 'id',
             ref: idInput
         }
     ]

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { createAlbum } from '../../../../../../stores/album/duck/operations'
 import { generateUrlCode } from '../../../../../generateUrlCode'
-import FormGenerator from '../Abstract Utils/FormGenerator'
+import { FormGenerator } from '../Abstract Utils/FormGenerator'
 import { ResetComponent } from '../Abstract Utils/ResetComponent'
 
 
@@ -29,21 +29,23 @@ const AlbumCreate = ({
 
     let inputList = [
         {
+            type: 'info',
+            action: 'Create',
+            endpoint: 'Album'
+        },
+        {
             type: 'text',
             name: 'title',
-            endpoint: 'Album',
             ref: titleInput
         },
         {
             type: 'text',
             name: 'description',
-            endpoint: 'Album',
             ref: descriptionInput
         },
         {
             type: 'file',
             name: 'image',
-            endpoint: 'Album',
             fileType: 'image',
             dropInfo: imageInfo,
             setDropInfo: setImageInfo,

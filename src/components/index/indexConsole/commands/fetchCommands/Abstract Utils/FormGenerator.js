@@ -14,23 +14,32 @@ export const FormGenerator = ({
     const handler = async (event) => {
         event.preventDefault()
         for ( let i = 0; i < refList.length; i++ ) {
-            if ( refList[i].current.value === '' ) {
+            if ( 
+                refList[i].current.value === '' 
+                && inputList[0].action !== 'Update'
+                || i === 0 && refList.length !== 1
+            ) {
                 refList[i].current.focus()
             } else if ( i === refList.length - 1 ) {
                 await action( refList )
             }
         }
     }
+    
+    let info
 
     return (
         <form onSubmit={ event => handler( event ) }>
             {   
                 inputList.map( (input, key) => {
-
-                    if ( input.type === 'text' ) {
+                    
+                    if ( input.type === 'info' ) {
+                        info = input
+                    } else if ( input.type === 'text' ) {
                         return ( 
                             <TextInputGenerator 
                                 input={ input }
+                                info={ info }
                                 key={ key } 
                             /> 
                         )
@@ -38,6 +47,7 @@ export const FormGenerator = ({
                         return (
                             <UploadInputGenerator 
                                 input={ input }
+                                info={ info }
                                 key={ key } 
                             />
                         )
@@ -54,19 +64,24 @@ export const FormGenerator = ({
  * @param {
  * {    
  *  type: 'text',   
- *  name: 'name',   
- *  endpoint: 'Album',    
+ *  name: 'name',       
  *  ref: React.createRef()  
  * }    } input - basic text input 
+ * @param {
+ * {
+ *  type: 'info',
+ *  action: 'Update'
+ *  endpoint: 'Album'
+ * }    } info - information about form
  */
 const TextInputGenerator = ({ 
-    input
+    input, info
 }) => {
     return (
         <div>
             { input.name + ':' }
             <input 
-                id={ input.name + input.endpoint + 'Input' }
+                id={ input.name + info.action + info.endpoint + 'Input' }
                 autoComplete='off'
                 ref={ input.ref }
             />
@@ -87,7 +102,7 @@ const TextInputGenerator = ({
  * }    } input -  
  */
 const UploadInputGenerator = ({ 
-    input 
+    input, info
 }) => {
     
     const onLoadFile = async ( event ) => {
@@ -129,7 +144,7 @@ const UploadInputGenerator = ({
             </pre>
             <input 
                 style={ { marginTop: '-55px' } }
-                id={ input.name + input.endpoint + 'Input' }
+                id={ input.name + info.action + info.endpoint + 'Input' }
                 className='uploadInput'
                 type='file'
                 accept={ input.fileType + '/*' }

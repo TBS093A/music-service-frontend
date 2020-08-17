@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 import { updateAlbum } from '../../../../../../stores/album/duck/operations'
+import { FormGenerator } from '../Abstract Utils/FormGenerator'
+import { ResetComponent } from '../Abstract Utils/ResetComponent'
+import { validate } from '../Abstract Utils/AbstractUpdate'
 
 
 const AlbumUpdate = ({ 
@@ -13,41 +16,62 @@ const AlbumUpdate = ({
 }) => {
 
     const [message, setMessage] = useState('')
+    const [image, setImage] = useState('')
+    const [imageInfo, setImageInfo] = useState('Drop/Click\nfor upload album image...')
     
     const idInput = React.createRef()
     const userInput = React.createRef()
     const titleInput = React.createRef()
     const descriptionInput = React.createRef()
-    const imageInput = React.createRef()
 
-    const update = (event) => {
-        event.preventDefault()
+    let refList = [
+        idInput,
+        userInput,
+        titleInput,
+        descriptionInput
+    ]
 
-        let id = idInput.current.value
-        let userID = userInput.current.value
-        let title = titleInput.current.value
-        let description = descriptionInput.current.value
-        let image = imageInput.current.value
-        
-        if ( id !== '' ) {
-            updateFetch(id, userID, title, description, image)
-        } else {
-            document.getElementById('idUpdateAlbumInput').focus()
+    let inputList = [
+        {
+            type: 'info',
+            action: 'Update',
+            endpoint: 'Album'
+        },
+        {
+            type: 'text',
+            name: 'id',
+            ref: idInput
+        },
+        {
+            type: 'text',
+            name: 'user',
+            ref: userInput
+        },
+        {
+            type: 'text',
+            name: 'title',
+            ref: titleInput
+        },
+        {
+            type: 'text',
+            name: 'description',
+            ref: descriptionInput
+        },
+        {
+            type: 'file',
+            name: 'image',
+            fileType: 'image',
+            dropInfo: imageInfo,
+            setDropInfo: setImageInfo,
+            file: image,
+            setFile: setImage
         }
-    }
+    ]
 
-    const updateFetch = async (id, userID, title, description, image) => {
-        let album = {}
-        if ( userID !== '' )
-            album['user_id'] = userID
-        if ( title !== '' )    
-            album['title'] = title
-        if ( description !== '' )
-            album['description'] = description
-        if ( image !== '' )
-            album['image'] = image
+    const updateFetch = async ( refs ) => {
+        let album = validate( inputList )
         await updateAlbum(
-            id,
+            album.id,
             album,
             user.token
         ).then( response => {
@@ -55,62 +79,26 @@ const AlbumUpdate = ({
         })
     }
     
-    useEffect( 
-        () => {
-            if ( componentVisible ) {
-                document.getElementById('idUpdateAlbumInput').focus()
-            } else {
-                activateConsoleInput()         
-            }
-            if ( message !== '' ) {
-
-                userInput.current.value = ''
-                titleInput.current.value = ''
-                descriptionInput.current.value = ''
-                imageInput.current.value = ''
-
-                setConsoleHistory( consoleHistory + message )
-                setComponentVisible( false )
-                setMessage('')
-            }
-        }
-    )
+    const resetState = () => {
+        setConsoleHistory( consoleHistory + message )
+        setComponentVisible( false )
+        setMessage('')
+    }
 
     return (
         <div>
-            <form onSubmit={ update }>
-                id:
-                <input 
-                        id='idUpdateAlbumInput'
-                        autoComplete='off'
-                        ref={ idInput }
-                    /> <br />
-                user_id:
-                <input 
-                        id='userUpdateAlbumInput'
-                        autoComplete='off'
-                        ref={ userInput }
-                    /> <br />
-                title:
-                <input 
-                        id='titleUpdateAlbumInput'
-                        autoComplete='off'
-                        ref={ titleInput }
-                    /> <br />
-                description:
-                <input 
-                        id='descriptionUpdateAlbumInput'
-                        autoComplete='off'
-                        ref={ descriptionInput }
-                    /> <br />
-                image:
-                <input 
-                        id='imageUpdateAlbumInput'
-                        autoComplete='off'
-                        ref={ imageInput }
-                    />
-                <button type='submit' />
-            </form>
+            <FormGenerator 
+                inputList={ inputList }
+                refList={ refList }
+                action={ updateFetch }
+            />
+            <ResetComponent 
+                resetState={ resetState }
+                refList={ refList }
+                message={ message }
+                componentVisible={ componentVisible }
+                activateConsoleInput={ activateConsoleInput }
+            />
         </div>
     )
 }
