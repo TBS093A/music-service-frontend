@@ -3,14 +3,27 @@ import React from 'react'
 /**
  * 
  * @param { [ {}, {}, ...{} ] } inputList - list of dicts with info about input
+ * @param { [] } refList - react ref objects list for handler validation
  * @param { } action - fetch method
  */
 const FormGenerator = ({
-    inputList, action
+    inputList, refList,
+    action
 }) => {
 
+    const handler = async (event) => {
+        event.preventDefault()
+        for ( let i = 0; i < refList.length; i++ ) {
+            if ( refList[i].current.value === '' ) {
+                refList[i].current.focus()
+            } else if ( i === refList.length - 1 ) {
+                await action( refList )
+            }
+        }
+    }
+
     return (
-        <form onSubmit={ event => action( event ) }>
+        <form onSubmit={ event => handler( event ) }>
             {   
                 inputList.map( (input, key) => {
 

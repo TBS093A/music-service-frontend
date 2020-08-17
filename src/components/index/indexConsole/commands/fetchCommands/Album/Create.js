@@ -60,22 +60,11 @@ const AlbumCreate = ({
         setMessage('')
     }
 
-    const create = async (event) => {
-        event.preventDefault()
-        let title = titleInput.current.value
-        let description = descriptionInput.current.value
-        if ( title !== '' && description !== '' ) {
-            await createFetch(title, description)
-        } if ( description === '') {
-            document.getElementById('descriptionAlbumInput').focus()
-        }
-    }
-
-    const createFetch = async (title, description) => {
+    const createFetch = async ( refs ) => {
         let album = {
             user_id: user.id,
-            title: title,
-            description: description,
+            title: refs[0].current.value,
+            description: refs[1].current.value,
             image: image,
             url_code: generateUrlCode( 'album' ),
         }
@@ -91,7 +80,8 @@ const AlbumCreate = ({
         <div>
             <FormGenerator 
                 inputList={ inputList }
-                action={ create }
+                refList={ refList }
+                action={ createFetch }
             />
             <ResetComponent 
                 resetState={ resetState }
