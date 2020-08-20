@@ -8,7 +8,6 @@ import { mapRowToString } from '../Abstract Utils/MapRowsToString'
 import { AbstractGetOne } from '../Abstract Utils/AbstractGetOne'
 
 const TrackGetOne = ({ 
-    album, 
     getOneTrack, 
     consoleHistory, setConsoleHistory, 
     componentVisible, setComponentVisible,
@@ -83,7 +82,7 @@ const TrackGetOne = ({
 }
 
 const mapStateToProps = state => ({
-    album: state.album
+    track: state.track
 })
 
 const mapDispatchToProps = dispatch => ({

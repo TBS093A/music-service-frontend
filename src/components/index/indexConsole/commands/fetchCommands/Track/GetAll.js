@@ -47,7 +47,7 @@ const TrackGetAll = ({
 }
 
 const mapStateToProps = state => ({
-    album: state.album
+    track: state.track
 })
 
 const mapDispatchToProps = dispatch => ({
