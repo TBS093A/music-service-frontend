@@ -46,7 +46,7 @@ const AlbumGetOne = ({
         return mapRowToString( album, mapFields )
     }
 
-    const getOneAlbumFetch = () => {
+    const getOneFetch = () => {
         AbstractGetOne(
             refList,
             consoleHistory,
@@ -68,7 +68,7 @@ const AlbumGetOne = ({
             <FormGenerator 
                 inputList={ inputList }
                 refList={ refList }
-                action={ getOneAlbumFetch }
+                action={ getOneFetch }
             />
             <ResetComponent
                 resetState={ resetState }
