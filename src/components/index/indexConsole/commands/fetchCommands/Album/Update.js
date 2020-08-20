@@ -67,6 +67,14 @@ const AlbumUpdate = ({
             setFile: setImage
         }
     ]
+    
+    const resetState = () => {
+        setConsoleHistory( consoleHistory + message )
+        setComponentVisible( false )
+        setImage('')
+        setImageInfo('Drop/Click\nfor upload album image...')
+        setMessage('')
+    }
 
     const updateFetch = async ( refs ) => {
         let album = validate( inputList )
@@ -77,14 +85,6 @@ const AlbumUpdate = ({
         ).then( response => {
             setMessage( response['info'] + '\n' )
         })
-    }
-    
-    const resetState = () => {
-        setConsoleHistory( consoleHistory + message )
-        setComponentVisible( false )
-        setImage('')
-        setImageInfo('Drop/Click\nfor upload album image...')
-        setMessage('')
     }
 
     return (
