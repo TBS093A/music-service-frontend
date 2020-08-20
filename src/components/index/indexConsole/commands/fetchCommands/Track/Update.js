@@ -41,7 +41,7 @@ const TrackUpdate = ({
     let inputList = [
         {
             type: 'info',
-            action: 'Create',
+            action: 'Update',
             endpoint: 'Track'
         },
         {
