@@ -6,7 +6,6 @@ import { ResetComponentWithoutInputs } from '../Abstract Utils/ResetComponent'
 import { mapAllRowsToString } from '../Abstract Utils/MapRowsToString'
 
 const AlbumGetAll = ({
-    album,
     getAllAlbum,
     consoleHistory, setConsoleHistory,
     componentVisible, setComponentVisible,
