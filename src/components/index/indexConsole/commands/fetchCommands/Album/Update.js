@@ -82,6 +82,8 @@ const AlbumUpdate = ({
     const resetState = () => {
         setConsoleHistory( consoleHistory + message )
         setComponentVisible( false )
+        setImage('')
+        setImageInfo('Drop/Click\nfor upload album image...')
         setMessage('')
     }
 
